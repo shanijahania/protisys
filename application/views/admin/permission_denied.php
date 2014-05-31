@@ -1,0 +1,1 @@
+<p class="not_found"><i class="icon-ban-circle"></i> Sorry ! Access to this page is denied by admin.</p>

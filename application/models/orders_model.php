@@ -1,0 +1,77 @@
+<?php
+
+class Orders_model extends MY_Model {
+
+	protected $_table = 'ps_orders';
+	protected $primary_key = 'order_id';
+
+	public function orders_info($params)
+    {
+    	$limit      = $params['limit'];
+        $per_page   = $params['per_page'];
+        $str        = $params['str'];
+        $sort_by    = $params['sort_by'];
+        $sort_column= $params['sort_column'];
+        $access     = $params['access'];
+        
+        if($str)
+        {
+            $this->db->like('orders.first_name', $str);
+            $this->db->or_like('orders.email', $str);
+            $this->db->or_like('orders.phone', $str);
+            $this->db->or_like('orders.postcode', $str);
+            $this->db->or_like('orders.address', $str);
+        }
+
+        $this->db->join('order_products as op', 'op.order_id = orders.order_id');
+
+        $this->db->select('*');
+
+        return $this;
+    }
+    public function orders_total($params)
+    {
+        $limit      = $params['limit'];
+        $per_page   = $params['per_page'];
+        $str        = $params['str'];
+        $sort_by    = $params['sort_by'];
+        $sort_column= $params['sort_column'];
+        $access     = $params['access'];
+        
+        if($str)
+        {
+            $this->db->like('orders.first_name', $str);
+            $this->db->or_like('orders.email', $str);
+            $this->db->or_like('orders.phone', $str);
+            $this->db->or_like('orders.postcode', $str);
+            $this->db->or_like('orders.address', $str);
+        }
+        $count = $this->db->count_all_results($this->db->dbprefix('orders'));
+
+        return $count;
+    }
+    function GerOrderById($id)
+    {
+    	$this->db->where('orders.order_id', $id);
+        $this->db->join('order_products as op', 'op.order_id = orders.order_id');
+    	$this->db->select('
+    		orders.order_id as id,
+    		orders.first_name as customer_name,
+    		orders.surname as customer_surname,
+    		orders.email as customer_email,
+    		orders.phone as customer_phone,
+    		orders.postcode as customer_postcode,
+    		orders.address as customer_address,
+    		orders.created_at as created,
+    		orders.modified_at as modified,
+    		orders.is_active as active,
+    		orders.status as status,
+    		op.order_product_id as product_id,
+ 			op.p_name,
+ 			op.p_price,
+    		');
+    	return $this;
+
+    }
+}
+?>
