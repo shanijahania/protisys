@@ -15,7 +15,7 @@
 				</div><!--#nav-search-->
 				<?php if(action_allowed($this->uri->segment(2), 'add')){?>
 				<div class="listing_add">
-					<a href="<?php echo site_url('admin/' . $this->uri->segment(2) . '/create'); ?>" class="btn btn-success btn-small pull-right"><i class="icon-plus"></i>New Users</a>	
+					<a href="<?php echo site_url('admin/' . $this->uri->segment(2) . '/create'); ?>" class="btn btn-success btn-small pull-right"><i class="icon-plus"></i>Add new</a>	
 				</div>
 				<?php }?>
 				<div><?php echo $pagination;?></div>
@@ -47,9 +47,9 @@
 						<td><?php echo ($row->is_active == '1') ? "Active" : "In Active"; ?></td>
 						<td>
 
-							<a href="<?php echo site_url('admin/members/show_member/'.$row->id_users.'/'.encode_id($row->id_users)); ?>" class="btn btn-primary btn-minier" title="View">View</a>
+							<a href="<?php echo site_url('admin/'.$module.'/'.$row->id_users); ?>" class="btn btn-primary btn-minier" title="View">View</a>
 							<?php if(action_allowed($this->uri->segment(2), 'edit')){?>
-							<a href="<?php echo site_url('admin/'. $this->uri->segment(2) .'/edit/'.$row->id_users); ?>" class="btn btn-minier btn-yellow" title="Edit">Edit</a>
+							<a href="<?php echo site_url('admin/'. $module .'/edit/'.$row->id_users); ?>" class="btn btn-minier btn-yellow" title="Edit">Edit</a>
 							<?php }?>
 							<?php if(action_allowed($this->uri->segment(2), 'delete')){?>
 							<a href="#" class="delete btn btn-danger btn-minier" id="<?php echo encode_ajax_id($row->id_users); ?>" title="Delete">Delete</a>

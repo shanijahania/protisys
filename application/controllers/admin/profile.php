@@ -27,58 +27,70 @@ class profile extends Admin_Controller {
 		$data['profile']['password'] = '';
 		$data['profile']['email'] = '';
 		$data['profile']['mobile'] = '';
-		$data['profile']['location'] = '';
+		$data['profile']['address'] = '';
 		$data['profile']['avatar'] = '';
-		$data['profile']['age'] = '';
 		$data['profile']['gender'] = '';
 
+
 		$user = $this->profilemodel->getUser($uid);
-		if($user->id_users){
+		if($user->id_users)
+		{
 			$data['profile']['id'] = $user->id_users;
 		}
-		if($user->name){
+		if($user->name)
+		{
 			$data['profile']['name'] = $user->name;
 		}
-		if($user->surname){
+		if($user->surname)
+		{
 			$data['profile']['surname'] = $user->surname;
 		}
-		if($user->username){
+		if($user->username)
+		{
 			$data['profile']['username'] = $user->username;
 		}
-		if($user->password){
+		if($user->password)
+		{
 			$data['profile']['password'] = $user->password;
 		}
-		if($user->email){
+		if($user->email)
+		{
 			$data['profile']['email'] = $user->email;
 		}
-		if($user->mobile){
+		if($user->mobile)
+		{
 			$data['profile']['mobile'] = $user->mobile;
 		}
-		if($user->location){
-			$data['profile']['location'] = $user->location;
+		if($user->address)
+		{
+			$data['profile']['address'] = $user->address;
 		}
-		if($user->gender){
+		if($user->gender)
+		{
 			$data['profile']['gender'] = $user->gender;
 		}
-		if($user->avatar){
+		if($user->avatar)
+		{
 			$data['profile']['avatar'] = $user->avatar;
 		}
-		if($user->created_at){
+		if($user->created_at)
+		{
 			$data['profile']['created_at'] = $user->created_at;
 		}
-		if($user->modified_at){
+		if($user->modified_at)
+		{
 			$data['profile']['modified_at'] = $user->modified_at;
 		}
-		if($user->age){
-			$data['profile']['age'] = $user->age;
-		}
-		if($user->access){
+		
+		if($user->access)
+		{
 			$data['profile']['access'] = $user->access;
 		}
 		$data['main'] = 'admin/profile_form';
 		$this->load->view('admin/template/layout', $data);
 	}
-	public function update(){
+	public function update()
+	{
 		$update = array();
 		// >>>>>>>> IMAGE upload script <<<<<<<<<<<<<
 		$output_dir = AVATAR_PATH;
@@ -147,9 +159,8 @@ class profile extends Admin_Controller {
 		$update['name'] 		= $this->input->post('name');
 		$update['surname'] 		= $this->input->post('surname');
 		$update['mobile'] 		= $this->input->post('mobile');
-		$update['location'] 	= $this->input->post('location');
+		$update['address'] 		= $this->input->post('address');
 		$update['gender'] 		= $this->input->post('gender');
-		$update['age'] 			= $this->input->post('age');
 		$update['modified_at'] 	= $this->date;
 		// print_r($update);
 		// exit();

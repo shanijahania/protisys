@@ -23,11 +23,10 @@ Class profilemodel extends CI_Model
 			'surname' => 	$data['surname'],
 			'password' => 	$data['password'],
 			'mobile'=> 		$data['mobile'],	
-			'location'=>	$data['location'],
+			'address'=>		$data['address'],
 			'gender'=>		$data['gender'],
 			'avatar'=>		$data['avatar'],
-			'modified_at'=>	$data['modified_at'],
-			'age'=>			$data['age']
+			'modified_at'=>	$data['modified_at']
 		);	
 		$this->db->where('id_users', $id);
 		if($this->db->update('users', $update)){

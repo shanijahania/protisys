@@ -36,12 +36,12 @@ define('FOPEN_READ_WRITE_CREATE',				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
-define('IMAGE_URL', 'http://'.$_SERVER['HTTP_HOST'].'/gossbox/uploads/');
-define('IMAGE_PATH', $_SERVER['DOCUMENT_ROOT'].'/gossbox/uploads/');
+define('IMAGE_URL', 'http://'.$_SERVER['HTTP_HOST'].'/protisys/uploads/');
+define('IMAGE_PATH', $_SERVER['DOCUMENT_ROOT'].'/protisys/uploads/');
 
-define('AVATAR_URL', 'http://'.$_SERVER['HTTP_HOST'].'/gossbox/uploads/avatar/');
-define('AVATAR_PATH', $_SERVER['DOCUMENT_ROOT'].'/gossbox/uploads/avatar/');
+define('AVATAR_URL', 'http://'.$_SERVER['HTTP_HOST'].'/protisys/uploads/avatar/');
+define('AVATAR_PATH', $_SERVER['DOCUMENT_ROOT'].'/protisys/uploads/avatar/');
 
-define('THEME_URL', 'http://'.$_SERVER['HTTP_HOST'].'/gossbox/application/themes/default/');
+define('THEME_URL', 'http://'.$_SERVER['HTTP_HOST'].'/protisys/application/themes/default/');
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

@@ -5,25 +5,25 @@ if($this->uri->segment(2) === FALSE){
 	$dashboard_class = '';
 }
 
-if($this->uri->segment(2) == 'users'){
-	$users_class = 'active';
+if($this->uri->segment(2) == 'salesperson'){
+	$salesperson_class = 'active';
 }else{
-	$users_class = '';
+	$salesperson_class = '';
 }
-if($this->uri->segment(2) == 'members'){
-	$members_class = 'active';
+if($this->uri->segment(2) == 'partners'){
+	$partners_class = 'active';
 }else{
-	$members_class = '';
+	$partners_class = '';
+}
+if($this->uri->segment(2) == 'clients'){
+	$clients_class = 'active';
+}else{
+	$clients_class = '';
 }
 if($this->uri->segment(2) == 'products'){
 	$products_class = 'active';
 }else{
 	$products_class = '';
-}
-if($this->uri->segment(2) == 'locations'){
-	$locations_class = 'active';
-}else{
-	$locations_class = '';
 }
 if($this->uri->segment(2) == 'showrooms'){
 	$showrooms_class = 'active';
@@ -75,7 +75,7 @@ if($this->uri->segment(2) == 'settings'){
 
 		<!-- ************** Module block ***************** -->
 		<?php if(module_permission('salesperson')){?>
-		<li class="<?php echo $users_class;?>">
+		<li class="<?php echo $salesperson_class;?>">
 			<a href="<?php echo base_url('admin/salesperson');?>">
 				<i class="icon-group"></i>
 				<span>Sale Representative</span>
@@ -83,7 +83,7 @@ if($this->uri->segment(2) == 'settings'){
 		</li>
 		<?php }?>
 		<?php if(module_permission('partners')){?>
-		<li class="<?php echo $members_class;?>">
+		<li class="<?php echo $partners_class;?>">
 			<a href="<?php echo base_url('admin/partners');?>">
 				<i class="icon-group"></i>
 				<span>Partners</span>
@@ -92,7 +92,7 @@ if($this->uri->segment(2) == 'settings'){
 		<?php }?>
 
 		<?php if(module_permission('clients')){?>
-		<li class="<?php echo $members_class;?>">
+		<li class="<?php echo $clients_class;?>">
 			<a href="<?php echo base_url('admin/clients');?>">
 				<i class="icon-group"></i>
 				<span>Clients</span>

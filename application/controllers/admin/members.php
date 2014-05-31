@@ -13,6 +13,20 @@ class Members extends Admin_Controller {
 	{
 		$data = array();
 
+		$moduleName = $this->uri->segment(2);
+		$data['module'] = $moduleName;
+
+		if($moduleName == 'salesperson')
+		{
+			$data['heading'] = 'Sales Representative';	
+		}
+		else
+		{
+			$data['heading'] = $moduleName;	
+		}
+
+		$data['page_title'] = $data['heading']." | ".$this->config->item('site_name');
+
 		$fields = array(
 			'name' => 'Name',
 			'surname' => 'Surname', 
@@ -95,8 +109,6 @@ class Members extends Admin_Controller {
 		$data['members_records'] = $members_records;
 
 		$data['uri_string'] = $uri_string;
-		$data['page_title'] = 'Members | Point-s';
-		$data['heading'] = 'Members';
 
 	    $data['main'] = 'admin/members/members_list';
 	    $data['js_function'] = array('members_list');
@@ -106,6 +118,21 @@ class Members extends Admin_Controller {
 
 	function add_members()
 	{
+		$data = array();
+
+		$moduleName = $this->uri->segment(2);
+		$data['module'] = $moduleName;
+
+		if($moduleName == 'salesperson')
+		{
+			$data['heading'] = 'Add Sales Representative';	
+		}
+		else
+		{
+			$data['heading'] = 'Add ' . $moduleName;	
+		}
+
+		$data['page_title'] = $moduleName." | ".$this->config->item('site_name');
 
 		$moduleName = $this->uri->segment(2);
 
@@ -114,10 +141,7 @@ class Members extends Admin_Controller {
 		else:
 			$moduleName = $moduleName;
 		endif;
-
-		$data = array();
-		$data['page_title'] = 'Add ' . $moduleName . '';
-		$data['heading'] = 'Add ' . $moduleName;
+		
 
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('name', 'Name', 'trim|required');
@@ -392,7 +416,8 @@ class Members extends Admin_Controller {
 			$this->load->view('admin/template/layout',$data);
 	    }
 	}
-	function show_member(){
+	function show_member()
+	{
 
 		$data = array();
 		$data['page_title'] = 'User | Point-s';
@@ -447,7 +472,8 @@ class Members extends Admin_Controller {
 
 	}
 
-	public function email_unique($value){
+	public function email_unique($value)
+	{
 			
 		if($this->users_model->unique_email($value))
 		{

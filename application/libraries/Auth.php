@@ -309,7 +309,7 @@ class Auth
 			$admin['admin']['email']		= $result['email'];
 			$admin['admin']['gender']		= $result['gender'];
 			$admin['admin']['avatar']		= $result['avatar'];
-			$admin['admin']['location']		= $result['location'];
+			$admin['admin']['address']		= $result['address'];
 			$admin['admin']['permissions']	= $set_permissions;
 
 			// print_r($admin);

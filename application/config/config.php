@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://'.$_SERVER['HTTP_HOST'].'/proti/';
+$config['base_url']	= 'http://'.$_SERVER['HTTP_HOST'].'/protisys/';
 // $config['admin_url']	= 'http://localhost/gossbox/index.php/admin';
 
 /*

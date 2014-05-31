@@ -42,9 +42,9 @@
           </div>
         </div>
         <div class="control-group">
-          <label class="control-label" for="location">Location*</label>
+          <label class="control-label" for="address">Address*</label>
           <div class="controls">
-            <input type="text" id="location" name="location" placeholder="Select a location" value="<?php echo $profile['location'];?>">
+            <textarea id="address" name="address" placeholder="Enter address"><?php echo $profile['address'];?></textarea>
           </div>
         </div>
         <div class="control-group">
@@ -68,7 +68,7 @@
         <div class="control-group">
           <div class="controls">
             <button type="submit" class="btn btn-success">Update <i class="icon-ok"></i></button>
-            <a href="<?php echo base_url('index.php/admin');?>" class="btn btn-default">Cancel <i class="icon-remove"></i></a>
+            <a href="<?php echo base_url('admin/profile');?>" class="btn btn-default">Cancel <i class="icon-remove"></i></a>
           </div>
         </div>
       </form>

@@ -93,7 +93,7 @@
 				<div class="control-group formSep <?php echo $error; ?>">
 					<label for="select01" class="control-label">Address </label>
 					<div class="controls">
-						<input type="text" name="address" id="address" value="<?php echo set_value('address'); ?>" class="input-xlarge"  >
+						<textarea name="address" id="address" class="input-xlarge"  ><?php echo set_value('address'); ?></textarea>
 						<?php echo form_error('address', '<span class="help-inline">', '</span>'); ?>
 					</div>
 				</div>
@@ -134,7 +134,7 @@
 				<div class="control-group">
 					<div class="controls">
 						<button class="btn btn-gebo btn-success" type="submit"><i class="icon-save"></i> Save</button>
-						<a class="btn" href="<?php echo site_url('admin/members'); ?>"><i class="icon-remove"></i> Cancel</a>
+						<a class="btn" href="<?php echo site_url('admin/'.$module); ?>"><i class="icon-remove"></i> Cancel</a>
 					</div>
 				</div>
 
