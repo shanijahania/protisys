@@ -102,23 +102,79 @@ class Products extends Admin_Controller {
 		$this->form_validation->set_rules('p_desc', 'Description', 'trim|required');
 		$this->form_validation->set_rules('is_active', 'Is Active', 'trim');
 		
-
 		if($this->form_validation->run() == TRUE)
 	    {
+	    	// >>>>>>>> IMAGE upload script <<<<<<<<<<<<<
+			$this->load->library('image_lib');
+			$output_dir = IMAGE_PATH;
+			$thumb_dir = IMAGE_PATH;
+			if(isset($_FILES["media"]))
+			{
+				if ($_FILES["media"]["error"] > 0)
+				{
+					if($_FILES["media"]["error"] == 4){
+						$insert['media'] = $this->input->post('media');
+					}else{
+						echo "Error: " . $_FILES["media"]["error"] . "<br>";	
+						$insert['media'] = '';
+					}
+					
+				}
+				else
+				{
+					$image1 = $output_dir."80x80_".$this->input->post('media');
+					$image2 = $output_dir."150x150_".$this->input->post('media');
+					$image3 = $output_dir."400x400_".$this->input->post('media');
+
+					if(file_exists($image1)){
+						unlink($image1);
+					}
+					if(file_exists($image2)){
+						unlink($image2);	
+					}
+					if(file_exists($image3)){
+						unlink($image3);	
+					}
+
+					$time = time();
+					$path_parts1 = pathinfo($_FILES["media"]["name"]);
+					$name = $path_parts1['filename'];
+					$ext1 = $path_parts1['extension'];
+
+					$newImg1 = post_slug($this->input->post('title'))."_".$time.".".$ext1;
+					$image1 = "80x80_".$newImg1;
+					$image2 = "150x150_".$newImg1;
+					$image3 = "400x400_".$newImg1;
+
+					$configs[] = array('source_image' => $_FILES["media"]["tmp_name"], 'new_image' => $output_dir.$image1, 'width' => 80, 'height' => 80, 'maintain_ratio' => TRUE);
+			        $configs[] = array('source_image' => $_FILES["media"]["tmp_name"], 'new_image' => $output_dir.$image2, 'width' => 150, 'height' => 150, 'maintain_ratio' => TRUE);
+			        $configs[] = array('source_image' => $_FILES["media"]["tmp_name"], 'new_image' => $output_dir.$image3, 'width' => 400, 'height' => 400, 'maintain_ratio' => TRUE);
+			        foreach ($configs as $config) {
+			        	$this->image_lib->initialize($config);
+			          	if(!$this->image_lib->resize()){
+			          		 echo $this->image_lib->display_errors();
+			          	}
+			        }
+			        $insert['media'] = $newImg1;
+				}
+
+			}else{
+				$insert['media'] = '';
+			}
+			// >>>>>>>> IMAGE upload script <<<<<<<<<<<<<
+
 	    	$p_name		= $this->input->post('p_name');
 			$price 		= $this->input->post('p_price');
 			$desc 		= $this->input->post('p_desc');
 			$is_active 	= $this->input->post('is_active');
 			
-
-
 	    	$data = array(
-	    				'product_name'	=>$p_name,
-	    				'product_desc'	=>$desc,
-	    				'product_price'	=>$price,
-	    				'created_at'	=>$this->date,
-	    				'modified_at'	=>$this->date,
-	    				'is_active'		=>$is_active
+	    				'product_name'	=> $p_name,
+	    				'product_desc'	=> $desc,
+	    				'product_price'	=> $price,
+	    				'created_at'	=> $this->date,
+	    				'modified_at'	=> $this->date,
+	    				'is_active'		=> $is_active
 	    				);
 
 	    	// echo "<pre>";

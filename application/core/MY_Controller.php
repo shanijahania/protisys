@@ -31,9 +31,7 @@ class Front_Controller extends Base_Controller
 
 		$this->load->model(array('usersmodel'));
 
-		$this->load->model(array('showrooms_model'));
 		$this->load->model(array('products_model'));
-		$this->load->model(array('locations_model'));
 		
 		//load the theme package
 		$this->load->add_package_path('application/themes/'.$this->config->item('theme').'/');

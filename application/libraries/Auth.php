@@ -150,8 +150,9 @@ class Auth
 
 		if($user_access != 'super_admin')
 		{
+			
 			if($module && in_array($module, $all_modules))
-		{
+			{
 				// get all modules
 				$modules = $this->CI->modules_model->get_all();
 				$modules_array = array();
@@ -163,6 +164,7 @@ class Auth
 
 				$user_modules = allowed_modules();
 				
+
 				if(array_key_exists($module, $user_modules))
 				{
 					return true;
@@ -198,7 +200,7 @@ class Auth
 		}
 	}
 
-	function check_action_allowed($module, $action)
+	function check_action_allowed($module, $action = false)
 	{
 		$user_access = $this->CI->admin_session->userdata['admin']['access'];
 		$all_modules = all_modules();

@@ -47,7 +47,7 @@
 						<td><?php echo ($row->is_active == '1') ? "Active" : "In Active"; ?></td>
 						<td>
 
-							<a href="<?php echo site_url('admin/'.$module.'/'.$row->id_users); ?>" class="btn btn-primary btn-minier" title="View">View</a>
+							<a href="<?php echo site_url('admin/'.$module.'/show/'.$row->id_users); ?>" class="btn btn-primary btn-minier" title="View">View</a>
 							<?php if(action_allowed($this->uri->segment(2), 'edit')){?>
 							<a href="<?php echo site_url('admin/'. $module .'/edit/'.$row->id_users); ?>" class="btn btn-minier btn-yellow" title="Edit">Edit</a>
 							<?php }?>

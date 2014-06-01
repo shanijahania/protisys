@@ -39,13 +39,13 @@
 */
 
 $route['default_controller'] 		= "admin/dashboard";
-// $route['admin/category/(:num)'] = "admin/category/edit/$1";
+// $route['admin/category/(:num)'] 	= "admin/category/edit/$1";
 $route['admin/category/(:num)'] 	= "admin/category/index/$1";
 $route['admin']						= 'admin/dashboard';
 
-$route['admin/(salesperson|partners|clients)']		= 'admin/members';
+$route['admin/(salesperson|partners|clients)'] = 'admin/members';
 
-$route['admin/(salesperson|partners|clients)/create']	= 'admin/members/add_members';
+$route['admin/(salesperson|partners|clients)/create']		= 'admin/members/add_members';
 $route['admin/(salesperson|partners|clients)/edit/(:num)']	= 'admin/members/edit_member/$1';
 $route['admin/(salesperson|partners|clients)/show/(:num)']	= 'admin/members/show_member/$1';
 

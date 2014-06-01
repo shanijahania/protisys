@@ -12,7 +12,9 @@
           <i class="icon-caret-down"></i>
         </a>
         <ul id="user_menu" class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
+        <?php if(is_access('super_admin')){?>
           <li><a href="<?php echo base_url('admin/settings');?>"><i class="icon-cog"></i> Settings</a></li>
+        <?php }?>  
           <li><a href="<?php echo base_url('admin/profile');?>"><i class="icon-user"></i> Profile</a></li>
           <li class="divider"></li>
           <li><a href="<?php echo base_url('index.php/admin/login/logout');?>"><i class="icon-off"></i> Logout</a></li>

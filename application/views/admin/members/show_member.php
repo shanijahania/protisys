@@ -39,9 +39,9 @@
 				<span class="span8"><?php echo date("F j, Y, g:i a", strtotime($members_records->modified_at));?></span>
 			</p>
 			<p class="span12">
-				<a class="btn" href="<?php echo site_url('admin/members'); ?>"><i class="icon-reply icon-2x icon-only"></i> All Members</a>
+				<a class="btn" href="<?php echo site_url('admin/'.$module); ?>"><i class="icon-reply icon-2x icon-only"></i> View All</a>
 				<?php if(action_allowed('members', 'edit')){?>
-				<a class="btn btn-yellow" href="<?php echo site_url('admin/members/edit_member/'.$members_records->id_users.'/'.encode_id($members_records->id_users)); ?>"><i class="icon-edit icon-2x icon-only"></i> Edit</a>
+				<a class="btn btn-yellow" href="<?php echo site_url('admin/'.$module.'/edit/'.$members_records->id_users); ?>"><i class="icon-edit icon-2x icon-only"></i> Edit</a>
 				<?php } ?>
 			</p>
 			</div>

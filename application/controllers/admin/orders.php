@@ -102,8 +102,8 @@ class Orders extends Admin_Controller {
 	function add_orders()
 	{
 		$data = array();
-	    $data['page_title'] = 'Add Order | Point-s';
-		$data['heading'] = 'Add Order';
+	    $data['page_title'] = 'Order | '.$this->config->item('site_name');
+		$data['heading'] = 'Order';
 		$product = '';
 		$uri = '';
 		
@@ -320,8 +320,8 @@ class Orders extends Admin_Controller {
 		    	// $this->permission->check_form_id_hash($orders_id,$hash);
 	    	}
 
-			$showroom_records = $this->showrooms_model->get_all();
-			$data['showroom_records'] = $showroom_records;
+			// $showroom_records = $this->showrooms_model->get_all();
+			// $data['showroom_records'] = $showroom_records;
 			$data['order_status'] = $this->order_status_model->get_all();
 
 	    	$orders_records = $this->orders_model->get($orders_id);

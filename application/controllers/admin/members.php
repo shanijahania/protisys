@@ -125,7 +125,7 @@ class Members extends Admin_Controller {
 
 		if($moduleName == 'salesperson')
 		{
-			$data['heading'] = 'Add Sales Representative';	
+			$data['heading'] = 'Sales Representative Detail';	
 		}
 		else
 		{
@@ -291,7 +291,9 @@ class Members extends Admin_Controller {
 
 	function edit_member()
 	{
+		$data = array();
 		$moduleName = $this->uri->segment(2);
+		$data['module'] = $moduleName;
 
 		if ($moduleName == 'salesperson'):
 			$moduleName = 'Sales Representative';
@@ -299,7 +301,6 @@ class Members extends Admin_Controller {
 			$moduleName = $moduleName;
 		endif;
 
-		$data = array();
 		$data['page_title'] = 'Edit ' . $moduleName . '';
 		$data['heading'] = 'Edit ' . $moduleName;
 
@@ -420,8 +421,20 @@ class Members extends Admin_Controller {
 	{
 
 		$data = array();
-		$data['page_title'] = 'User | Point-s';
-		$data['heading'] = 'User View';
+
+		$moduleName = $this->uri->segment(2);
+		$data['module'] = $moduleName;
+
+		if($moduleName == 'salesperson')
+		{
+			$data['heading'] = 'Sales Representative';	
+		}
+		else
+		{
+			$data['heading'] = $moduleName;	
+		}
+
+		$data['page_title'] = $data['heading'].' | '.$this->config->item('site_name');
 		
 		$hash_members_id = $this->uri->segment(4);
 

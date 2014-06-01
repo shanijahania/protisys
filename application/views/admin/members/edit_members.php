@@ -150,7 +150,7 @@
 				<div class="control-group">
 					<div class="controls">
 						<button class="btn btn-gebo btn-success" type="submit"><i class="icon-save"></i> Save Changes</button>
-						<a class="btn" href="<?php echo site_url('admin/members'); ?>"><i class="icon-remove"></i> Cancel</a>
+						<a class="btn" href="<?php echo site_url('admin/'.$module); ?>"><i class="icon-remove"></i> Cancel</a>
 					</div>
 				</div>
 
