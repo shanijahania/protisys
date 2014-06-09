@@ -24,7 +24,7 @@ class Orders_model extends MY_Model {
         }
 
         $this->db->join('order_products as op', 'op.order_id = orders.order_id');
-
+        $this->db->group_by('orders.order_id');
         $this->db->select('*');
 
         return $this;

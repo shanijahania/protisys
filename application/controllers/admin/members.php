@@ -214,7 +214,9 @@ class Members extends Admin_Controller {
 				}
 				else
 				{
-					$modules = array();
+					$modules = array(
+							'5' => Array ( 'view' => 0, 'add' => 1, 'edit' => 0, 'delete' => 0 )
+						);
 				}
 
 		    	if($modules)
@@ -265,7 +267,7 @@ class Members extends Admin_Controller {
 	    		$salespersons = array_merge((array)$parent_array, (array)$salespersons);
 
 	    	}
-	    	elseif($this->uri->segment(2) == 'clients')
+	    	elseif($this->uri->segment(2) == 'clients' && $this->admin_session->userdata['admin']['access'] == 'salesperson' )
 	    	{
 	    		$this->db->where(array('access' => 'partners','is_active' => '1'));
 	    		$partners = $this->users_model->get_many_by();
@@ -446,6 +448,34 @@ class Members extends Admin_Controller {
 	    $data['main'] = 'admin/members/show_member';
 
 	    $this->load->view('admin/template/layout',$data);
+	}
+
+	public function commission()
+	{
+		
+		$data = array();
+
+		$moduleName = $this->uri->segment(2);
+		$data['module'] = $moduleName;
+
+		if($moduleName == 'salesperson')
+		{
+			$data['heading'] = 'Sales Representative';	
+		}
+		else
+		{
+			$data['heading'] = $moduleName;	
+		}
+
+		$this->load->model('order_commision_model');
+		$this->db->join('users','id_users = u_id');
+		$this->db->where(array('u_id'=>$this->uri->segment(4)));
+		
+		$data['members_records'] = $this->order_commision_model->get_many_by();
+		
+		$data['main'] = 'admin/members/members_commission_list';
+
+		$this->load->view('admin/template/layout',$data);
 	}
 
 	function load_permissions()

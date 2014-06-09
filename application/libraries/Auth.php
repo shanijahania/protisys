@@ -312,6 +312,7 @@ class Auth
 			$admin['admin']['gender']		= $result['gender'];
 			$admin['admin']['avatar']		= $result['avatar'];
 			$admin['admin']['address']		= $result['address'];
+			$admin['admin']['parent_id']	= $result['parent_id'];
 			$admin['admin']['permissions']	= $set_permissions;
 
 			// print_r($admin);

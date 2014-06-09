@@ -186,6 +186,76 @@ class Orders extends Admin_Controller {
 			    			);
 			    	$this->order_products_model->insert($product_data);
 
+			    	if($this->admin_session->userdata['admin']['access'] == 'partners'):
+
+			    		$partner_com 	= $product->product_price * 20/100;
+			    		$saleperson_com = $product->product_price * 10/100;
+			    		
+			    		$partnercommission = new stdClass();
+
+			    		$partnercommission->commission 	= $partner_com;
+			    		$partnercommission->user_id		= $this->admin_session->userdata['admin']['id_users']; 
+			    		
+			    		$salecommission = new stdClass();
+
+			    		$salecommission->commission = $saleperson_com ;
+			    		$salecommission->user_id	= $this->admin_session->userdata['admin']['parent_id'];
+
+			    		// $partnerArray 		= array($partnercommission);
+			    		// $salespersonArray 	= array($salecommission);
+
+			    		$commissions[0] = $partnercommission;
+			    		$commissions[1]	= $salecommission;
+
+			    	elseif($this->admin_session->userdata['admin']['access'] == 'salesperson'):
+			    		
+			    		$saleperson_com = $product->product_price * 20/100;
+			    		
+			    		$salecommission = new stdClass();
+
+			    		$salecommission->commission = $saleperson_com ;
+			    		$salecommission->user_id	= $getClientParentDetails->parent_id;
+
+			    		$commissions[0]	= $salecommission;
+			    	
+			    	else:
+
+			    		$getClientParentDetails = $this->users_model->get($this->admin_session->userdata['admin']['parent_id']);
+			    		$partner_com 	= $product->product_price * 20/100;
+			    		$saleperson_com = $product->product_price * 10/100;
+			    		
+			    		$partnercommission = new stdClass();
+
+			    		$partnercommission->commission 	= $partner_com;
+			    		$partnercommission->user_id		= $getClientParentDetails->id_users; 
+			    		
+			    		$salecommission = new stdClass();
+
+			    		$salecommission->commission = $saleperson_com ;
+			    		$salecommission->user_id	= $getClientParentDetails->parent_id;
+
+			    		$commissions[0]	= $partnercommission;
+			    		$commissions[1]	= $salecommission;
+			    	
+			    	endif;
+
+			    	$this->load->model('order_commision_model');
+			    	$commissions_persantage = '20';
+			    	
+			    	foreach($commissions as $key => $value):
+			    		if($key == '1'):
+			    			$commissions_persantage = '10';
+			    		endif;
+			    		$data = array(
+			    					'ord_id'			=> $insert_id,
+			    					'u_id'				=> $value->user_id,
+			    					'ord_total'			=> $product->product_price,
+			    					'ord_commission'	=> $value->commission,
+			    					'ord_commission_persentage' => $commissions_persantage 
+			    				);
+			    			$this->order_commision_model->insert($data);
+			    	endforeach;
+			    	
 			    	$this->session->set_flashdata('success', 'The orders info have been successfully added');
 					redirect('admin/orders/add_orders'.$uri);
 				}
@@ -208,7 +278,15 @@ class Orders extends Admin_Controller {
 
 			//$data['order_status'] = $this->order_status_model->get_all();
 			
-			if ($this->admin_session->userdata['admin']['access'] != 'clients') 
+			if($this->admin_session->userdata['admin']['access'] == 'partners') 
+			{
+				$this->db->where('parent_id',$this->admin_session->userdata['admin']['id_users']);
+				$this->db->where('access','clients');
+				$this->db->where('is_active','1');
+				$data['allClients'] = $this->users_model->get_many_by();
+				$data['dispalyAllClients'] = 'block';
+			}
+			elseif($this->admin_session->userdata['admin']['access'] == 'salesperson') 
 			{
 				$this->db->where('parent_id',$this->admin_session->userdata['admin']['id_users']);
 				$this->db->where('access','clients');
@@ -231,7 +309,16 @@ class Orders extends Admin_Controller {
 				$others = array($other);
 				$data['allClients'] = array_merge((array)$others,$data['allClients']);
 
-			endif;	
+			else:
+				$other = new stdClass();
+
+				$other->id_users 	= 'others';
+				$other->name 		= 'Others';
+
+				$others = array($other);
+				$data['allClients'] = $others;
+
+			endif;
 
 			$this->db->where(array('is_active' => '1'));
 			$data['allProducts'] = $this->products_model->get_all();

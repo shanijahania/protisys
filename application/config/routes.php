@@ -48,6 +48,7 @@ $route['admin/(salesperson|partners|clients)'] = 'admin/members';
 $route['admin/(salesperson|partners|clients)/create']		= 'admin/members/add_members';
 $route['admin/(salesperson|partners|clients)/edit/(:num)']	= 'admin/members/edit_member/$1';
 $route['admin/(salesperson|partners|clients)/show/(:num)']	= 'admin/members/show_member/$1';
+$route['admin/(salesperson|partners|clients)/commission/(:num)']	= 'admin/members/commission/$1';
 
 $route['404_override'] 				= 'common/_404';
 
