@@ -38,7 +38,7 @@
 				$num = 0; if(isset($orders_records)) :foreach($orders_records as $row): $num++;
 				?>
 				<tr>
-					<td></td>
+					<td><?=$num?></td>
 					<td><?php echo $row->first_name; ?></td>
 					<td><?php echo $row->email; ?></td>
 					<td><?php echo $row->phone; ?></td>

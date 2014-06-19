@@ -153,6 +153,8 @@ class Members extends Admin_Controller {
 		$this->form_validation->set_rules('postcode', 'Postcode', 'trim');
 		$this->form_validation->set_rules('mobile', 'Mobile', 'trim');
 		$this->form_validation->set_rules('access', 'Access', 'trim|required');
+		$this->form_validation->set_rules('c_per', 'Commission Persentage', 'trim|is_numeric');
+		$this->form_validation->set_rules('notes', 'Aggregate Notes', 'trim');
 		$this->form_validation->set_rules('is_active', 'Is Active', 'trim|required');
 		$this->form_validation->set_rules('parent_id', 'Sales Representative', 'trim|required');
 
@@ -167,6 +169,8 @@ class Members extends Admin_Controller {
 			$postcode	= $this->input->post('postcode');
 			$mobile 	= $this->input->post('mobile');
 			$access 	= $this->input->post('access');
+			$c_per 		= $this->input->post('c_per');
+			$notes 		= $this->input->post('notes');
 			$is_active 	= $this->input->post('is_active');
 
 			$userParent = $this->input->post('parent_id');
@@ -183,6 +187,8 @@ class Members extends Admin_Controller {
 	    				'access'		=> $access,
 	    				'is_active'		=> $is_active,
 	    				'parent_id'		=> $userParent,
+	    				'commission_per'=> $c_per,
+	    				'notes'			=> $notes,
 	    				'created_at' 	=> $this->date,
 	    				'modified_at' 	=> $this->date
 	    				);
@@ -313,6 +319,8 @@ class Members extends Admin_Controller {
 		$this->form_validation->set_rules('mobile', 'Mobile', 'trim');
 		$this->form_validation->set_rules('logo', 'Logo', 'trim');
 		$this->form_validation->set_rules('access', 'Access', 'trim|required');
+		$this->form_validation->set_rules('c_per', 'Commission Persentage', 'trim|required|is_numeric');
+		$this->form_validation->set_rules('notes', 'Aggregate Notes', 'trim');
 		$this->form_validation->set_rules('is_active', 'Is Active', 'required');
 		
 		if($this->form_validation->run() == TRUE)
@@ -331,6 +339,8 @@ class Members extends Admin_Controller {
 			$mobile 	= $this->input->post('mobile');
 			$logo 		= $this->input->post('logo');
 			$access 	= $this->input->post('access');
+			$c_per 		= $this->input->post('c_per');
+			$notes 		= $this->input->post('notes');
 			$is_active 	= $this->input->post('is_active');
 			
 	    	$data = array(
@@ -339,6 +349,8 @@ class Members extends Admin_Controller {
 	    				'username'		=> $username,
 	    				'mobile'		=> $mobile,
 	    				'access'		=> $access,
+	    				'notes'			=> $notes,
+	    				'commission_per'=> $c_per,
 	    				'is_active'		=> $is_active, 
 	    				'modified_at' 	=> $this->date
 	    				);

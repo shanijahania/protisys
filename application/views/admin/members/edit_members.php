@@ -124,6 +124,25 @@
 					</div>
 				</div>
 
+				<?php if($this->uri->segment(2) != 'clients'):?>
+					<?php $error = ''; if(form_error('c_per')){ $error = 'error'; } ?>
+
+					<div class="control-group formSep <?php echo $error; ?>">
+						<label for="notes" class="control-label">Commission Persentage </label>
+						<div class="controls">
+							<input type="text" name="c_per" id="c_per" value="<?php echo set_value('c_per',$members_records->commission_per); ?>" class="input-xlarge"  > %
+							<?php echo form_error('c_per', '<span class="help-inline">', '</span>'); ?>
+						</div>
+					</div>
+				<?php endif;?>
+
+				<div class="control-group formSep">
+					<label for="notes" class="control-label">Aggregate Notes </label>
+					<div class="controls">
+						<textarea name="notes" id="notes"><?php echo set_value('notes',$members_records->notes); ?></textarea> 
+					</div>
+				</div>
+
 				<?php $error = ''; if(form_error('is_active')){ $error = 'error'; } ?>
 
 				<div class="control-group formSep <?php echo $error; ?>">

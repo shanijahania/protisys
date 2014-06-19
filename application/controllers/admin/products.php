@@ -100,6 +100,8 @@ class Products extends Admin_Controller {
 		$this->form_validation->set_rules('p_name', 'Product Name', 'trim|required');
 		$this->form_validation->set_rules('p_price', 'Product Price', 'trim|required|numeric');
 		$this->form_validation->set_rules('p_desc', 'Description', 'trim|required');
+		$this->form_validation->set_rules('location', 'Product Location', 'trim');
+		$this->form_validation->set_rules('p_stock', 'Product Stock', 'trim|required|is_numeric');
 		$this->form_validation->set_rules('is_active', 'Is Active', 'trim');
 		
 		if($this->form_validation->run() == TRUE)
@@ -108,7 +110,7 @@ class Products extends Admin_Controller {
 			$this->load->library('image_lib');
 			$output_dir = IMAGE_PATH;
 			$thumb_dir = IMAGE_PATH;
-			if(isset($_FILES["media"]))
+			/*if(isset($_FILES["media"]))
 			{
 				if ($_FILES["media"]["error"] > 0)
 				{
@@ -160,21 +162,25 @@ class Products extends Admin_Controller {
 
 			}else{
 				$insert['media'] = '';
-			}
+			}*/
 			// >>>>>>>> IMAGE upload script <<<<<<<<<<<<<
 
 	    	$p_name		= $this->input->post('p_name');
 			$price 		= $this->input->post('p_price');
 			$desc 		= $this->input->post('p_desc');
+			$location	= $this->input->post('location');
+			$p_stock	= $this->input->post('p_stock');
 			$is_active 	= $this->input->post('is_active');
 			
 	    	$data = array(
-	    				'product_name'	=> $p_name,
-	    				'product_desc'	=> $desc,
-	    				'product_price'	=> $price,
-	    				'created_at'	=> $this->date,
-	    				'modified_at'	=> $this->date,
-	    				'is_active'		=> $is_active
+	    				'product_name'		=> $p_name,
+	    				'product_desc'		=> $desc,
+	    				'product_price'		=> $price,
+	    				'product_location'	=> $location,
+	    				'product_stock'		=> $p_stock,
+	    				'created_at'		=> $this->date,
+	    				'modified_at'		=> $this->date,
+	    				'is_active'			=> $is_active
 	    				);
 
 	    	// echo "<pre>";
@@ -209,6 +215,8 @@ class Products extends Admin_Controller {
 		$this->form_validation->set_rules('p_name', 'Product Name', 'trim|required');
 		$this->form_validation->set_rules('p_price', 'Product Price', 'trim|required|numeric');
 		$this->form_validation->set_rules('p_desc', 'Description', 'trim|required');
+		$this->form_validation->set_rules('location', 'Product Location', 'trim');
+		$this->form_validation->set_rules('p_stock', 'Product Stock', 'trim|required|is_numeric');
 		$this->form_validation->set_rules('is_active', 'Is Active', 'trim');		
 
 		if($this->form_validation->run() == TRUE)
@@ -225,16 +233,20 @@ class Products extends Admin_Controller {
 	    	$p_name		= $this->input->post('p_name');
 			$price 		= $this->input->post('p_price');
 			$desc 		= $this->input->post('p_desc');
+			$location	= $this->input->post('location');
+			$p_stock 		= $this->input->post('p_stock');
 			$is_active 	= $this->input->post('is_active');
 			
 
 
 	    	$data = array(
-	    				'product_name'	=>$p_name,
-	    				'product_desc'	=>$desc,
-	    				'product_price'	=>$price,
-	    				'modified_at'	=>$this->date,
-	    				'is_active'		=>$is_active
+	    				'product_name'		=> $p_name,
+	    				'product_desc'		=> $desc,
+	    				'product_price'		=> $price,
+	    				'product_location'	=> $location,
+	    				'product_stock'		=> $p_stock,
+	    				'modified_at'		=> $this->date,
+	    				'is_active'			=> $is_active
 	    				);
 
 	    	if($this->products_model->update($products_id,$data))

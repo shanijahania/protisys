@@ -23,6 +23,38 @@
 					</div>
 			  	</div>
 			  	
+			  	<?php $error = ''; if(form_error('location')){ $error = 'error'; } ?>
+
+				<div class="control-group formSep <?php echo $error; ?>">
+					<label for="select01" class="control-label">Location </label>
+					<div class="controls">
+						<?php
+							$usa = FALSE;
+							$ecuador = FALSE;
+							if($products_records->product_location == 'usa'):
+								$usa = TRUE;
+							else:
+								$ecuador = TRUE;
+							endif;
+						?>
+						<select name="location" id="location" class="input-xlarge chosen">
+							<option value="usa" <?php echo set_select('location', 'usa',$usa); ?> >USA</option>
+							<option value="ecuador" <?php echo set_select('location', 'ecuador',$ecuador); ?> >Ecuador</option>
+						</select>
+						<?php echo form_error('location', '<span class="help-inline">', '</span>'); ?>
+					</div>
+				</div>
+
+				<?php $error = ''; if(form_error('p_stock')){ $error = 'error'; } ?>
+
+				<div class="control-group formSep <?php echo $error; ?>">
+					<label for="select01" class="control-label">Product Stock <span class="f_req">*</span></label>
+					<div class="controls">
+						<input type="text" name="p_stock" id="p_stock" value="<?php echo set_value('p_stock',$products_records->product_stock); ?>" class="input-xlarge"  >
+						<?php echo form_error('p_stock', '<span class="help-inline">', '</span>'); ?>
+					</div>
+				</div>
+
 				<?php $error = ''; if(form_error('p_desc')){ $error = 'error'; } ?>
 
 			   	<div class="control-group formSep <?php echo $error; ?>">

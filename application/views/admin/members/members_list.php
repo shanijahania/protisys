@@ -29,6 +29,10 @@
 							<?php echo anchor($uri_string.'&sort_column='.$field.'&sort_by='.(($sort_by == 'asc' && $sort_column == $field) ? 'desc' : 'asc'), $label);?>
 						</th>
 						<?php }?>
+						<?php if($this->uri->segment(2) != 'clients'):?>
+							<th>Commission Persentage</th>
+						<?php endif;?>
+						<th>Notes</th>
 						<th>Status</th>
 						<th>Action</th>
 					</tr>
@@ -44,10 +48,15 @@
 						<td><?php echo $row->username; ?></td>
 						<td><?php echo $row->email; ?></td>
 						<td><?php echo $row->mobile; ?></td>
+						<?php if($this->uri->segment(2) != 'clients'):?>
+							<td><?php echo $row->commission_per; ?> %</td>
+						<?php endif;?>
+						<td><?php echo $row->notes; ?></td>
 						<td><?php echo ($row->is_active == '1') ? "Active" : "In Active"; ?></td>
 						<td>
-
-							<a href="<?php echo site_url('admin/'.$module.'/commission/'.$row->id_users); ?>" class="btn btn-primary btn-minier" title="View">Commissions</a>
+						<?php if($this->uri->segment(2) != 'clients' ):?>
+							<a href="<?php echo site_url('admin/orders/?uid='.$row->id_users.'&role='.$this->uri->segment(2)); ?>" class="btn btn-primary btn-minier" title="View">Orders</a>
+						<?php endif;?>
 							<a href="<?php echo site_url('admin/'.$module.'/show/'.$row->id_users); ?>" class="btn btn-primary btn-minier" title="View">View</a>
 							<?php if(action_allowed($this->uri->segment(2), 'edit')){?>
 							<a href="<?php echo site_url('admin/'. $module .'/edit/'.$row->id_users); ?>" class="btn btn-minier btn-yellow" title="Edit">Edit</a>

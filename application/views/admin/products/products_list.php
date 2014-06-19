@@ -20,8 +20,9 @@
 							</th>
 							<?php }?>
 						<th>Product Price</th>
-						<th>Status</th>	
-						<th>Modified at</th>	
+						<th>Location</th>	
+						<th>Stock</th>	
+						<th>Status</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -33,8 +34,10 @@
 						<td><?php echo $num;?></td>
 						<td><?php echo $row->product_name; ?></td>
 						<td><?php echo $row->product_price; ?></td>
+						<td><?php echo $row->product_location == 'usa' ? 'USA' : 'Ecuador'; ?></td>
+						<td><?php echo $row->product_stock ; ?></td>
 						<td><?php echo $row->is_active == 0 ? 'In Active' : 'Active'; ?></td>
-						<td><?php echo date('d-m-Y H:i:s' , strtotime($row->modified_at)); ?></td>
+						<!-- <td><?php echo date('d-m-Y H:i:s' , strtotime($row->modified_at)); ?></td> -->
 						<td>
 							<a href="<?php echo site_url('admin/products/show_product/'.$row->product_id.'/'.encode_id($row->product_id)); ?>" class="btn btn-primary btn-minier" title="View">View</a>
 							<?php if(action_allowed('products', 'edit')){?>

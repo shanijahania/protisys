@@ -30,7 +30,8 @@ class Orders extends Admin_Controller {
 		$limit 			= 0;
 		$sort_by		= "desc";
 		$sort_column	= "orders_id";
-
+		$uid 			= '';
+		$post_params = array();
 		
 
 		if(isset($_GET['s']) && $_GET['s'] !='')
@@ -42,6 +43,28 @@ class Orders extends Admin_Controller {
 		{
 			$uri_string = 'admin/orders?s='.$str;
 		}
+
+		if(isset($_GET['uid']) && $_GET['uid'] !='')
+		{
+			$uid = $_GET['uid'];
+			if(isset($_GET['role']) && $_GET['role'] == 'salesperson'):
+				$getPartnerID = $this->users_model->get_many_by(array('parent_id' => $uid));
+			
+				$ids_users = array();
+				if(!empty($getPartnerID)):
+					foreach ($getPartnerID as $key => $value) 
+					{
+						$ids_users[$key] = $value->id_users; 
+					}
+				
+					$post_params['ids_users'] = $ids_users;
+				endif;
+
+
+			endif;
+			$uri_string .= "&uid=".$uid;
+		}
+
 		if(isset($_GET['per_page']) && $_GET['per_page'] !='')
 		{
 			$limit = $_GET['per_page'];
@@ -59,22 +82,27 @@ class Orders extends Admin_Controller {
 
 		$data['s'] = $str;
 
-		$post_params = array();
+		
 		$post_params['limit'] 		= $limit;
 		$post_params['per_page'] 	= $per_page;
 		$post_params['str'] 		= $str;
 		$post_params['sort_column'] = $sort_column;
 		$post_params['sort_by'] 	= $sort_by;
 		$post_params['fields'] 		= $fields;
+		$post_params['uid'] 		= $uid;
 		$post_params['access'] 		= 'admin';
+
+		// print_r($post_params);die();
 
 		// pagination code goes here
 		
 		$base_url 	= base_url($uri_string);
-		$total_users = $this->orders_model->orders_total($post_params);
+		$total_orders = $this->orders_model->orders_total($post_params);
+
+		// echo $this->db->last_query();die();
 
 		$config['base_url'] 			= $base_url;
-		$config['total_rows'] 			= $total_users;
+		$config['total_rows'] 			= $total_orders;
 		$config['per_page'] 			= $per_page; 
 		$config['page_query_string'] 	= TRUE;
 
@@ -138,38 +166,43 @@ class Orders extends Admin_Controller {
 				$modified_at 	= $this->date;
 
 		    	$data = array(
-		    				'name'			=> $first_name,
+		    				'client_id'		=> '',
+		    				'user_id'		=> $this->admin_session->userdata['admin']['id_users'],	
+		    				'first_name'	=> $first_name,
 		    				'surname'		=> $surname,
 		    				'email'			=> $email,
-		    				'mobile'		=> $phone,
+		    				'phone'			=> $phone,
 		    				'postcode'		=> $postcode,
 		    				'address'		=> $address,
 		    				'created_at'	=> $created_at,
 		    				'modified_at'	=> $modified_at,
-		    				'access'		=> 'clients',
-		    				'parent_id'		=> $this->admin_session->userdata['admin']['id_users'],	
-		    				'is_active'		=> '1'
+		    				'is_active'		=> $input['is_active'],
+		    				'status'		=> $input['status']
 		    				);
-		    	$input['client_id'] = $this->users_model->insert($data);
-		    endif;
+				
+				$insert_id = $this->orders_model->insert($data);
+		    else:
 
-		    $userInfo = $this->users_model->get($input['client_id']);
-	    		
-	    	$data = array(
-	    				'first_name'	=> $userInfo->name,
-	    				'surname'		=> $userInfo->surname,
-	    				'email'			=> $userInfo->email,
-	    				'phone'			=> $userInfo->mobile,
-	    				'postcode'		=> $userInfo->postcode,
-	    				'address'		=> $userInfo->address,
-	    				'created_at'	=> $this->date,
-	    				'modified_at'	=> $this->date,
-	    				'is_active'		=> $input['is_active'],
-	    				'status'		=> $input['status']
-	    				);	
+			    $userInfo = $this->users_model->get($input['client_id']);
+		    		
+		    	$data = array(
+		    				'client_id'		=> $input['client_id'],
+		    				'user_id'		=> $userInfo->parent_id,
+		    				'first_name'	=> $userInfo->name,
+		    				'surname'		=> $userInfo->surname,
+		    				'email'			=> $userInfo->email,
+		    				'phone'			=> $userInfo->mobile,
+		    				'postcode'		=> $userInfo->postcode,
+		    				'address'		=> $userInfo->address,
+		    				'created_at'	=> $this->date,
+		    				'modified_at'	=> $this->date,
+		    				'is_active'		=> $input['is_active'],
+		    				'status'		=> $input['status']
+		    				);	
 
-	    	$insert_id = $this->orders_model->insert($data);	
-	    	
+		    	$insert_id = $this->orders_model->insert($data);	
+			endif;
+
 	    	if($insert_id)
 			{	
 				// ***************** Insert order product *******************
@@ -188,19 +221,24 @@ class Orders extends Admin_Controller {
 
 			    	if($this->admin_session->userdata['admin']['access'] == 'partners'):
 
-			    		$partner_com 	= $product->product_price * 20/100;
-			    		$saleperson_com = $product->product_price * 10/100;
+			    		$partnerDetail = $this->users_model->get($this->admin_session->userdata['admin']['id_users']);
+			    		$salespersonDetails = $this->users_model->get($this->admin_session->userdata['admin']['parent_id']);
+			    		
+
+			    		$partner_com 	= $product->product_price * $partnerDetail->commission_per/100;
+			    		$saleperson_com = $product->product_price * $salespersonDetails->commission_per/100;
 			    		
 			    		$partnercommission = new stdClass();
 
 			    		$partnercommission->commission 	= $partner_com;
-			    		$partnercommission->user_id		= $this->admin_session->userdata['admin']['id_users']; 
+			    		$partnercommission->user_id		= $partnerDetail->id_users;
+			    		$partnercommission->commissions_persantage	= $partnerDetail->commission_per; 
 			    		
 			    		$salecommission = new stdClass();
 
 			    		$salecommission->commission = $saleperson_com ;
-			    		$salecommission->user_id	= $this->admin_session->userdata['admin']['parent_id'];
-
+			    		$salecommission->user_id	= $salespersonDetails->id_users;
+			    		$salecommission->commissions_persantage	= $salespersonDetails->commission_per;
 			    		// $partnerArray 		= array($partnercommission);
 			    		// $salespersonArray 	= array($salecommission);
 
@@ -209,30 +247,37 @@ class Orders extends Admin_Controller {
 
 			    	elseif($this->admin_session->userdata['admin']['access'] == 'salesperson'):
 			    		
-			    		$saleperson_com = $product->product_price * 20/100;
+			    		$salespersonDetails = $this->users_model->get($this->admin_session->userdata['admin']['id_users']);
+
+			    		$saleperson_com = $product->product_price * $salespersonDetails->commission_per/100;
 			    		
 			    		$salecommission = new stdClass();
 
 			    		$salecommission->commission = $saleperson_com ;
-			    		$salecommission->user_id	= $getClientParentDetails->parent_id;
+			    		$salecommission->user_id	= $salespersonDetails->id_users;
+			    		$salecommission->commissions_persantage	= $salespersonDetails->commission_per;
 
 			    		$commissions[0]	= $salecommission;
-			    	
+
 			    	else:
 
 			    		$getClientParentDetails = $this->users_model->get($this->admin_session->userdata['admin']['parent_id']);
-			    		$partner_com 	= $product->product_price * 20/100;
-			    		$saleperson_com = $product->product_price * 10/100;
+			    		$getPartnerDetials		= $this->users_model->get($getClientParentDetails->parent_id);
+
+			    		$partner_com 	= $product->product_price * $getClientParentDetails->commission_per/100;
+			    		$saleperson_com = $product->product_price * $getPartnerDetials->commission_per/100;
 			    		
 			    		$partnercommission = new stdClass();
 
 			    		$partnercommission->commission 	= $partner_com;
 			    		$partnercommission->user_id		= $getClientParentDetails->id_users; 
-			    		
+			    		$partnercommission->commissions_persantage	= $getPartnerDetials->commission_per; 
+
 			    		$salecommission = new stdClass();
 
 			    		$salecommission->commission = $saleperson_com ;
 			    		$salecommission->user_id	= $getClientParentDetails->parent_id;
+			    		$salecommission->commissions_persantage	= $getPartnerDetials->commission_per; 
 
 			    		$commissions[0]	= $partnercommission;
 			    		$commissions[1]	= $salecommission;

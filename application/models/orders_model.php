@@ -13,7 +13,8 @@ class Orders_model extends MY_Model {
         $sort_by    = $params['sort_by'];
         $sort_column= $params['sort_column'];
         $access     = $params['access'];
-        
+        $uid        = $params['uid'];
+            
         if($str)
         {
             $this->db->like('orders.first_name', $str);
@@ -22,8 +23,19 @@ class Orders_model extends MY_Model {
             $this->db->or_like('orders.postcode', $str);
             $this->db->or_like('orders.address', $str);
         }
+        if($uid)
+        {
+            $this->db->where('orders.user_id', $uid);
+            if(@$params['ids_users']):
+                foreach($params['ids_users'] as $u)
+                {
+                    $this->db->or_where_in('orders.user_id',$u);                    
+                }
+            endif;
+        }
 
         $this->db->join('order_products as op', 'op.order_id = orders.order_id');
+        $this->db->limit($per_page,$limit);
         $this->db->group_by('orders.order_id');
         $this->db->select('*');
 
@@ -37,6 +49,7 @@ class Orders_model extends MY_Model {
         $sort_by    = $params['sort_by'];
         $sort_column= $params['sort_column'];
         $access     = $params['access'];
+        $uid        = $params['uid'];
         
         if($str)
         {
@@ -46,6 +59,20 @@ class Orders_model extends MY_Model {
             $this->db->or_like('orders.postcode', $str);
             $this->db->or_like('orders.address', $str);
         }
+
+        if($uid)
+        {
+            $this->db->where('orders.user_id',$uid);
+
+            if(@$params['ids_users']):
+                foreach($params['ids_users'] as $u)
+                {
+                    $this->db->or_where_in('orders.user_id',$u);                    
+                }
+            endif;
+
+        }
+
         $count = $this->db->count_all_results($this->db->dbprefix('orders'));
 
         return $count;
