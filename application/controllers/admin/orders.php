@@ -216,7 +216,11 @@ class Orders extends Admin_Controller {
 			    			'order_id'		=> $insert_id, 
 			    			'p_name'		=> $product->product_name,
 			    			'p_price'		=> $product->product_price,
+			    			'p_qty'			=> '1'
 			    			);
+			    	$this->db->set('product_stock', 'product_stock-1', FALSE);
+			    	$this->db->where('product_id',$input['product_id']);
+			    	$this->db->update('ps_products');
 			    	$this->order_products_model->insert($product_data);
 
 			    	if($this->admin_session->userdata['admin']['access'] == 'partners'):
