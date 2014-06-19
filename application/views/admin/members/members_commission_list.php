@@ -8,10 +8,10 @@
 							<i id="nav-search-icon" class="icon-search"></i>
 							<select id="u_type" name="u_type">
 								<?php
+									$salesperson = '';
+									$partners = '';
 									if(isset($_GET['u_type']))
 									{
-										$salesperson = '';
-										$partners = '';
 										if($_GET['u_type'] == 'salesperson')
 										{
 											$salesperson = 'selected';
