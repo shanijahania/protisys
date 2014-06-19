@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2014 at 10:02 PM
+-- Generation Time: Jun 19, 2014 at 09:42 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `point-s`
+-- Database: `protisys`
 --
 
 -- --------------------------------------------------------
@@ -43,6 +43,32 @@ CREATE TABLE IF NOT EXISTS `ps_banners` (
 INSERT INTO `ps_banners` (`banner_id`, `title`, `link`, `description`, `img`) VALUES
 (5, NULL, NULL, NULL, 'e815e-green-iphone5c.jpg'),
 (6, NULL, NULL, NULL, 'db7cc-MacBookPro.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ps_commission`
+--
+
+DROP TABLE IF EXISTS `ps_commission`;
+CREATE TABLE IF NOT EXISTS `ps_commission` (
+  `c_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ord_id` int(11) NOT NULL,
+  `u_id` int(11) NOT NULL,
+  `ord_total` int(11) DEFAULT NULL,
+  `ord_commission` int(11) DEFAULT NULL,
+  `ord_commission_persentage` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`c_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `ps_commission`
+--
+
+INSERT INTO `ps_commission` (`c_id`, `ord_id`, `u_id`, `ord_total`, `ord_commission`, `ord_commission_persentage`) VALUES
+(1, 1, 14, 500, 75, '20'),
+(2, 2, 15, 180, 36, '20'),
+(3, 2, 14, 180, 27, '10');
 
 -- --------------------------------------------------------
 
@@ -143,15 +169,18 @@ CREATE TABLE IF NOT EXISTS `ps_orders` (
   `modified_at` datetime DEFAULT NULL,
   `is_active` int(1) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `client_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`order_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `ps_orders`
 --
 
-INSERT INTO `ps_orders` (`order_id`, `first_name`, `surname`, `email`, `phone`, `postcode`, `address`, `created_at`, `modified_at`, `is_active`, `status`) VALUES
-(13, 'test', 'user', 'testuser@admin.com', '12345698', '54000', 'asdfadfasdfas', '2014-05-29 21:44:01', '2014-05-29 21:44:01', NULL, NULL);
+INSERT INTO `ps_orders` (`order_id`, `first_name`, `surname`, `email`, `phone`, `postcode`, `address`, `created_at`, `modified_at`, `is_active`, `status`, `user_id`, `client_id`) VALUES
+(1, 'aftab', 'khan', 'aftabkhan@admin.com', '(333) 333-3333', 'asdfas55', 'kjsdflasjdflajsdfj adfjla dads fja fdl', '2014-06-18 22:25:54', '2014-06-18 22:25:54', 1, 'Pending', 14, 17),
+(2, 'aftab', 'khan', 'aftabkhan@gmail.com', '(123) 456-7895', '54000', 'lahore', '2014-06-18 23:02:39', '2014-06-18 23:02:39', 1, 'Pending', 15, 16);
 
 -- --------------------------------------------------------
 
@@ -167,14 +196,15 @@ CREATE TABLE IF NOT EXISTS `ps_order_products` (
   `p_name` varchar(255) DEFAULT NULL,
   `p_price` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`order_product_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `ps_order_products`
 --
 
 INSERT INTO `ps_order_products` (`order_product_id`, `product_id`, `order_id`, `p_name`, `p_price`) VALUES
-(1, 1, 13, 'product 1', NULL);
+(1, 2, 1, 'product 2', '500'),
+(2, 1, 2, 'product 1', '180');
 
 -- --------------------------------------------------------
 
@@ -227,18 +257,20 @@ CREATE TABLE IF NOT EXISTS `ps_permissions` (
   PRIMARY KEY (`id_permission`,`modules_id`,`users_id`),
   KEY `fk_permissions_modules1_idx` (`modules_id`),
   KEY `fk_permissions_users1_idx` (`users_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `ps_permissions`
 --
 
 INSERT INTO `ps_permissions` (`id_permission`, `add`, `edit`, `delete`, `view`, `modules_id`, `users_id`) VALUES
-(1, 1, 1, 1, 1, 2, 9),
-(2, 1, 1, 1, 1, 3, 9),
-(3, 1, 1, 1, 1, 5, 9),
-(4, 1, 1, 1, 1, 3, 10),
-(5, 1, 1, 1, 1, 5, 10);
+(1, 1, 1, 1, 1, 2, 14),
+(2, 1, 1, 1, 1, 3, 14),
+(3, 1, 1, 1, 1, 5, 14),
+(4, 1, 1, 1, 1, 3, 15),
+(5, 1, 1, 1, 1, 5, 15),
+(6, 1, 0, 0, 0, 5, 16),
+(7, 1, 0, 0, 0, 5, 17);
 
 -- --------------------------------------------------------
 
@@ -252,18 +284,21 @@ CREATE TABLE IF NOT EXISTS `ps_products` (
   `product_name` varchar(255) NOT NULL,
   `product_desc` text NOT NULL,
   `product_price` varchar(50) NOT NULL DEFAULT '0.0',
+  `product_location` varchar(255) DEFAULT NULL,
+  `product_stock` varchar(45) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `modified_at` datetime DEFAULT NULL,
   `is_active` int(1) DEFAULT NULL,
   PRIMARY KEY (`product_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `ps_products`
 --
 
-INSERT INTO `ps_products` (`product_id`, `product_name`, `product_desc`, `product_price`, `created_at`, `modified_at`, `is_active`) VALUES
-(1, 'product 1', 'this is test product for testing', '180', '2014-05-26 22:37:13', '2014-05-26 22:50:29', 1);
+INSERT INTO `ps_products` (`product_id`, `product_name`, `product_desc`, `product_price`, `product_location`, `product_stock`, `created_at`, `modified_at`, `is_active`) VALUES
+(1, 'product 1', 'this is test product for testing', '180', NULL, NULL, '2014-05-26 22:37:13', '2014-05-26 22:50:29', 1),
+(2, 'product 2', 'this is the second product of the system', '500', 'usa', '250', '2014-06-17 23:40:41', '2014-06-18 00:00:42', 1);
 
 -- --------------------------------------------------------
 
@@ -375,25 +410,26 @@ CREATE TABLE IF NOT EXISTS `ps_users` (
   `address` varchar(255) DEFAULT NULL,
   `postcode` varchar(255) DEFAULT NULL,
   `gender` int(11) NOT NULL,
+  `notes` text,
+  `commission_per` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `modified_at` datetime DEFAULT NULL,
   `access` varchar(45) DEFAULT NULL,
   `parent_id` int(11) NOT NULL,
   `is_active` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_users`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `ps_users`
 --
 
-INSERT INTO `ps_users` (`id_users`, `name`, `surname`, `username`, `password`, `email`, `mobile`, `address`, `postcode`, `gender`, `created_at`, `modified_at`, `access`, `parent_id`, `is_active`) VALUES
-(1, 'admin', 'admin', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin@admin.com', NULL, NULL, NULL, 0, '2014-05-24 00:00:00', '2014-05-24 00:00:00', 'super_admin', 0, 1),
-(9, 'saleperson', '1', 'saleperson', 'a4d4f214875c03340efe0589ad49fdc29c9556ba', 'saleperson@admin.com', '(123) 456-7895', NULL, NULL, 0, '2014-05-27 21:48:56', '2014-05-27 21:48:56', 'salesperson', 1, 1),
-(10, 'partner', '1', 'partner', '3624db883007efa198232b3aa774a54360ed3f26', 'partner@admin.com', '(123) 456-7899', NULL, NULL, 0, '2014-05-27 22:06:39', '2014-05-27 22:06:39', 'partners', 9, 1),
-(11, 'client', 'partner', 'clientpartner', 'd1a9f6c758cb70f99193e4f46cbdc02d5a416f0a', 'clientpartner@admin.com', '(123) 456-7899', NULL, NULL, 0, '2014-05-29 20:00:45', '2014-05-29 20:00:45', 'clients', 10, 1),
-(12, 'aftab', 'khan', NULL, NULL, 'aftabkhan@admin.com', '123456789', 'dfasdfasdfasdfas', '540000', 0, '2014-05-29 21:41:48', '2014-05-29 21:41:48', 'clients', 10, 1),
-(13, 'test', 'user', NULL, NULL, 'testuser@admin.com', '12345698', 'asdfadfasdfas', '54000', 0, '2014-05-29 21:44:01', '2014-05-29 21:44:01', 'clients', 10, 1);
+INSERT INTO `ps_users` (`id_users`, `name`, `surname`, `username`, `password`, `email`, `mobile`, `address`, `postcode`, `gender`, `notes`, `commission_per`, `created_at`, `modified_at`, `access`, `parent_id`, `is_active`) VALUES
+(1, 'admin', 'admin', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin@admin.com', NULL, NULL, NULL, 0, NULL, NULL, '2014-05-24 00:00:00', '2014-05-24 00:00:00', 'super_admin', 0, 1),
+(14, 'saleperson', 'user', 'saleperson@admin.com', 'a4d4f214875c03340efe0589ad49fdc29c9556ba', 'saleperson@admin.com', '(123) 456-7899', 'lahore', '54000', 0, 'this is the notes section', 15, '2014-06-08 00:53:41', '2014-06-18 18:42:16', 'salesperson', 1, 1),
+(15, 'partner', 'user', 'partner@admin.com', '3624db883007efa198232b3aa774a54360ed3f26', 'partner@admin.com', '(123) 456-7895', 'lahore', '54000', 0, '', 20, '2014-06-08 00:55:45', '2014-06-18 18:48:51', 'partners', 14, 1),
+(16, 'aftab', 'khan', 'aftabkhan@gmail.com', '38d199fbfc923de7014d3f00e2a27192b111a085', 'aftabkhan@gmail.com', '(123) 456-7895', 'lahore', '54000', 0, NULL, NULL, '2014-06-08 00:59:41', '2014-06-08 00:59:41', 'clients', 15, 1),
+(17, 'aftab', 'khan', 'aftabkhan', '38d199fbfc923de7014d3f00e2a27192b111a085', 'aftabkhan@admin.com', '(333) 333-3333', 'kjsdflasjdflajsdfj adfjla dads fja fdl', 'asdfas55', 0, 'this is the first client', 0, '2014-06-18 22:21:11', '2014-06-18 22:21:11', 'clients', 14, 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
