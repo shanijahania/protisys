@@ -23,7 +23,7 @@
 
 									}
 								?>
-								<option value="">All</option>
+								<option value=" ">All</option>
 								<option value="salesperson" <?=$salesperson?>>Sale Representative </option>
 								<option value="partners" <?=$partners?>>Partners </option>
 				            </select>

@@ -100,5 +100,16 @@ class Orders_model extends MY_Model {
     	return $this;
 
     }
+
+    function totalSales()
+    {
+        $this->db->select('SUM(p_price) as total');
+        $this->db->from('order_products as op');
+        $this->db->join('orders as o','o.order_id = op.order_id');
+
+        $result = $this->db->get();
+        
+        return $result->row()->total;
+    }
 }
 ?>
