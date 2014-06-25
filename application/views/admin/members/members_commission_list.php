@@ -28,9 +28,9 @@
 								<option value="partners" <?=$partners?>>Partners </option>
 				            </select>
 				            <div class="input-daterange inline" id="datepicker" >
-					            <input type="text" class="input-small" value="<?=$_GET['start']?>" name="start" placeholder="Start Date" readonly="readonly" />
+					            <input type="text" class="input-small" value="<?=@$_GET['start']?>" name="start" placeholder="Start Date" readonly="readonly" />
 			                    <span class="add-on" style="vertical-align: top;height:20px">to</span>
-			                    <input type="text" class="input-small" name="end" value="<?=$_GET['end']?>"  placeholder="End Date" readonly="readonly" />
+			                    <input type="text" class="input-small" name="end" value="<?=@$_GET['end']?>"  placeholder="End Date" readonly="readonly" />
 		                    </div>
 							<div class="btn-group">
 								<button class="btn btn-small btn-primary"> <i class="icon-search"></i> Search </button>
