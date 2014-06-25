@@ -47,6 +47,8 @@
           <th>Email</th>
           <th>Phone</th>
           <th>Address</th>
+          <th>User Name</th>
+          <th>User Role</th>
           <th>Status</th>
           <th>Action</th>
         </tr>
@@ -61,6 +63,8 @@
           <td><?php echo $row->email; ?></td>
           <td><?php echo $row->phone; ?></td>
           <td><?php echo $row->address; ?></td>
+          <td><?php echo $row->username; ?></td>
+          <td><?php echo $row->access; ?></td>
           <td><?php echo $row->status; ?></td>
           <td>
             <a href="<?php echo site_url('admin/orders/show_order/'.$row->order_id.'/'.encode_id($row->order_id)); ?>" class="btn btn-primary btn-minier" title="View">View</a>

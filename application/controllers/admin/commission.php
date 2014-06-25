@@ -22,6 +22,8 @@ class Commission extends Admin_Controller {
 		$sort_by		= "desc";
 		$sort_column	= "c_id";
 		$uid 			= '';
+		$start 			= '';
+		$end 			= '';
 		$u_type			= '';
 		$post_params = array();
 		
@@ -36,10 +38,18 @@ class Commission extends Admin_Controller {
 			$uri_string = 'admin/commission?s='.$str;
 		}
 
-		if(isset($_GET['u_type']) && $_GET['u_type'] !='')
+		if(isset($_GET['u_type']) && $_GET['u_type'] !=' ')
 		{
 			$u_type = $_GET['u_type'];
 			$uri_string = '&u_type='.$_GET['u_type'];
+		}
+
+		if(isset($_GET['start']) && $_GET['start'] !='' && isset($_GET['end']) && $_GET['end'] !='')
+		{
+			$start = $_GET['start']." 00:00:00";
+			$uri_string = '&start='.$_GET['start'];
+			$end = $_GET['end']." 23:59:59";
+			$uri_string = '&end='.$_GET['end'];
 		}
 
 		if(isset($_GET['uid']) && $_GET['uid'] !='')
@@ -86,6 +96,8 @@ class Commission extends Admin_Controller {
 		$post_params['sort_by'] 	= $sort_by;
 		$post_params['fields'] 		= $fields;
 		$post_params['uid'] 		= $uid;
+		$post_params['start'] 		= $start;
+		$post_params['end'] 		= $end;
 		$post_params['u_type']		= $u_type;
 
 		// pagination code goes here
@@ -106,6 +118,7 @@ class Commission extends Admin_Controller {
 
 		$comm_records = $this->order_commision_model->orders_info($post_params)->get_all();
 
+		// echo $this->db->last_query();die();
 		$data['comm_records'] = $comm_records;
 
 		$data['sort_by'] 		= $sort_by;

@@ -14,7 +14,9 @@ class Order_commision_model extends MY_Model {
         $sort_column= $params['sort_column'];
         $uid        = $params['uid'];
         $u_type		= $params['u_type'];
-         
+        $start      = $params['start'];
+        $end        = $params['end'];
+
         if($str)
         {
         	$this->db->like('username', $str);	
@@ -28,6 +30,11 @@ class Order_commision_model extends MY_Model {
         if($u_type)
         {
         	$this->db->where('access',$u_type);
+        }
+
+        if($start && $end)
+        {
+        	$this->db->where("created_at BETWEEN '$start' AND '$end'");
         }
 
         $this->db->join('users as u', 'u.id_users = u_id');
@@ -44,6 +51,8 @@ class Order_commision_model extends MY_Model {
         $sort_by    = $params['sort_by'];
         $sort_column= $params['sort_column'];
         $uid        = $params['uid'];
+        $start      = $params['start'];
+        $end        = $params['end'];
         
         if($str)
         {
@@ -53,6 +62,11 @@ class Order_commision_model extends MY_Model {
         if($uid)
         {
             $this->db->where('u_id', $uid);
+        }
+
+        if($start && $end)
+        {
+        	$this->db->where("created_at BETWEEN '$start' AND '$end'");
         }
 
         $this->db->join('users as u', 'u.id_users = u_id');
