@@ -55,6 +55,7 @@ class Dashboard extends Admin_Controller {
 		$post_params['uid'] 		= $uid;
 		$post_params['access'] 		= 'admin';
 
+		$this->db->join('users as u','u.id_users = user_id');
 		$orders_records = $this->orders_model->orders_info($post_params)->get_all();
 
 		return $orders_records;
