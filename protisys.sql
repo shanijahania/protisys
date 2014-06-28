@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 19, 2014 at 09:42 PM
+-- Generation Time: Jun 28, 2014 at 10:15 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -58,17 +58,22 @@ CREATE TABLE IF NOT EXISTS `ps_commission` (
   `ord_total` int(11) DEFAULT NULL,
   `ord_commission` int(11) DEFAULT NULL,
   `ord_commission_persentage` varchar(50) DEFAULT NULL,
+  `order_date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`c_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `ps_commission`
 --
 
-INSERT INTO `ps_commission` (`c_id`, `ord_id`, `u_id`, `ord_total`, `ord_commission`, `ord_commission_persentage`) VALUES
-(1, 1, 14, 500, 75, '20'),
-(2, 2, 15, 180, 36, '20'),
-(3, 2, 14, 180, 27, '10');
+INSERT INTO `ps_commission` (`c_id`, `ord_id`, `u_id`, `ord_total`, `ord_commission`, `ord_commission_persentage`, `order_date`) VALUES
+(1, 1, 15, 500, 100, '20', '2014-06-28 17:57:41'),
+(2, 1, 14, 500, 75, '10', '2014-06-28 17:57:41'),
+(3, 2, 15, 180, 36, '20', '2014-06-28 18:01:54'),
+(4, 2, 14, 180, 27, '15', '2014-06-28 18:01:54'),
+(5, 3, 14, 500, 75, '15', '2014-06-28 18:03:15'),
+(6, 4, 15, 500, 100, '20', '2014-06-28 18:43:08'),
+(7, 4, 14, 500, 75, '15', '2014-06-28 18:43:08');
 
 -- --------------------------------------------------------
 
@@ -172,15 +177,17 @@ CREATE TABLE IF NOT EXISTS `ps_orders` (
   `user_id` int(11) DEFAULT NULL,
   `client_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`order_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `ps_orders`
 --
 
 INSERT INTO `ps_orders` (`order_id`, `first_name`, `surname`, `email`, `phone`, `postcode`, `address`, `created_at`, `modified_at`, `is_active`, `status`, `user_id`, `client_id`) VALUES
-(1, 'aftab', 'khan', 'aftabkhan@admin.com', '(333) 333-3333', 'asdfas55', 'kjsdflasjdflajsdfj adfjla dads fja fdl', '2014-06-18 22:25:54', '2014-06-18 22:25:54', 1, 'Pending', 14, 17),
-(2, 'aftab', 'khan', 'aftabkhan@gmail.com', '(123) 456-7895', '54000', 'lahore', '2014-06-18 23:02:39', '2014-06-18 23:02:39', 1, 'Pending', 15, 16);
+(1, 'aftab', 'khan', 'aftabkhan@gmail.com', '(123) 456-7895', '54000', 'lahore', '2014-06-28 14:57:41', '2014-06-28 14:57:41', 1, 'Pending', 15, 16),
+(2, 'aftab', 'khan', 'aftabkhan@gmail.com', '(123) 456-7895', '54000', 'lahore', '2014-06-28 15:01:53', '2014-06-28 15:01:53', 1, 'Pending', 15, 16),
+(3, 'aftab', 'khan', 'aftabkhan@admin.com', '(333) 333-3333', 'asdfas55', 'kjsdflasjdflajsdfj adfjla dads fja fdl', '2014-06-28 15:03:15', '2014-06-28 15:03:15', 1, 'Pending', 14, 17),
+(4, 'aftab', 'khan', 'aftabkhan@gmail.com', '(123) 456-7895', '54000', 'lahore', '2014-06-28 15:43:07', '2014-06-28 15:43:07', 1, 'Pending', 15, 16);
 
 -- --------------------------------------------------------
 
@@ -195,16 +202,19 @@ CREATE TABLE IF NOT EXISTS `ps_order_products` (
   `order_id` int(10) DEFAULT NULL,
   `p_name` varchar(255) DEFAULT NULL,
   `p_price` varchar(45) DEFAULT NULL,
+  `p_qty` int(11) DEFAULT NULL,
   PRIMARY KEY (`order_product_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `ps_order_products`
 --
 
-INSERT INTO `ps_order_products` (`order_product_id`, `product_id`, `order_id`, `p_name`, `p_price`) VALUES
-(1, 2, 1, 'product 2', '500'),
-(2, 1, 2, 'product 1', '180');
+INSERT INTO `ps_order_products` (`order_product_id`, `product_id`, `order_id`, `p_name`, `p_price`, `p_qty`) VALUES
+(1, 2, 1, 'product 2', '500', 1),
+(2, 1, 2, 'product 1', '180', 1),
+(3, 2, 3, 'product 2', '500', 1),
+(4, 2, 4, 'product 2', '500', 1);
 
 -- --------------------------------------------------------
 
@@ -298,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `ps_products` (
 
 INSERT INTO `ps_products` (`product_id`, `product_name`, `product_desc`, `product_price`, `product_location`, `product_stock`, `created_at`, `modified_at`, `is_active`) VALUES
 (1, 'product 1', 'this is test product for testing', '180', NULL, NULL, '2014-05-26 22:37:13', '2014-05-26 22:50:29', 1),
-(2, 'product 2', 'this is the second product of the system', '500', 'usa', '250', '2014-06-17 23:40:41', '2014-06-18 00:00:42', 1);
+(2, 'product 2', 'this is the second product of the system', '500', 'usa', '245', '2014-06-17 23:40:41', '2014-06-18 00:00:42', 1);
 
 -- --------------------------------------------------------
 
@@ -417,6 +427,7 @@ CREATE TABLE IF NOT EXISTS `ps_users` (
   `access` varchar(45) DEFAULT NULL,
   `parent_id` int(11) NOT NULL,
   `is_active` int(11) DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_users`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
 
@@ -424,12 +435,12 @@ CREATE TABLE IF NOT EXISTS `ps_users` (
 -- Dumping data for table `ps_users`
 --
 
-INSERT INTO `ps_users` (`id_users`, `name`, `surname`, `username`, `password`, `email`, `mobile`, `address`, `postcode`, `gender`, `notes`, `commission_per`, `created_at`, `modified_at`, `access`, `parent_id`, `is_active`) VALUES
-(1, 'admin', 'admin', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin@admin.com', NULL, NULL, NULL, 0, NULL, NULL, '2014-05-24 00:00:00', '2014-05-24 00:00:00', 'super_admin', 0, 1),
-(14, 'saleperson', 'user', 'saleperson@admin.com', 'a4d4f214875c03340efe0589ad49fdc29c9556ba', 'saleperson@admin.com', '(123) 456-7899', 'lahore', '54000', 0, 'this is the notes section', 15, '2014-06-08 00:53:41', '2014-06-18 18:42:16', 'salesperson', 1, 1),
-(15, 'partner', 'user', 'partner@admin.com', '3624db883007efa198232b3aa774a54360ed3f26', 'partner@admin.com', '(123) 456-7895', 'lahore', '54000', 0, '', 20, '2014-06-08 00:55:45', '2014-06-18 18:48:51', 'partners', 14, 1),
-(16, 'aftab', 'khan', 'aftabkhan@gmail.com', '38d199fbfc923de7014d3f00e2a27192b111a085', 'aftabkhan@gmail.com', '(123) 456-7895', 'lahore', '54000', 0, NULL, NULL, '2014-06-08 00:59:41', '2014-06-08 00:59:41', 'clients', 15, 1),
-(17, 'aftab', 'khan', 'aftabkhan', '38d199fbfc923de7014d3f00e2a27192b111a085', 'aftabkhan@admin.com', '(333) 333-3333', 'kjsdflasjdflajsdfj adfjla dads fja fdl', 'asdfas55', 0, 'this is the first client', 0, '2014-06-18 22:21:11', '2014-06-18 22:21:11', 'clients', 14, 1);
+INSERT INTO `ps_users` (`id_users`, `name`, `surname`, `username`, `password`, `email`, `mobile`, `address`, `postcode`, `gender`, `notes`, `commission_per`, `created_at`, `modified_at`, `access`, `parent_id`, `is_active`, `avatar`) VALUES
+(1, 'admin', 'admin', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin@admin.com', NULL, NULL, NULL, 0, NULL, NULL, '2014-05-24 00:00:00', '2014-05-24 00:00:00', 'super_admin', 0, 1, NULL),
+(14, 'saleperson', 'user', 'saleperson@admin.com', 'a4d4f214875c03340efe0589ad49fdc29c9556ba', 'saleperson@admin.com', '(123) 456-7899', 'lahore', '54000', 0, 'this is the notes section', 15, '2014-06-08 00:53:41', '2014-06-18 18:42:16', 'salesperson', 1, 1, NULL),
+(15, 'partner', 'user', 'partner@admin.com', '3624db883007efa198232b3aa774a54360ed3f26', 'partner@admin.com', '(123) 456-7895', 'lahore', '54000', 0, '', 20, '2014-06-08 00:55:45', '2014-06-18 18:48:51', 'partners', 14, 1, NULL),
+(16, 'aftab', 'khan', 'aftabkhan@gmail.com', '38d199fbfc923de7014d3f00e2a27192b111a085', 'aftabkhan@gmail.com', '(123) 456-7895', 'lahore', '54000', 0, NULL, NULL, '2014-06-08 00:59:41', '2014-06-08 00:59:41', 'clients', 15, 1, NULL),
+(17, 'aftab', 'khan', 'aftabkhan', '38d199fbfc923de7014d3f00e2a27192b111a085', 'aftabkhan@admin.com', '(333) 333-3333', 'kjsdflasjdflajsdfj adfjla dads fja fdl', 'asdfas55', 0, 'this is the first client', 0, '2014-06-18 22:21:11', '2014-06-18 22:21:11', 'clients', 14, 1, NULL);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
