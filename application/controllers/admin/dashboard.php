@@ -14,7 +14,7 @@ class Dashboard extends Admin_Controller {
 	{
 		$data = '';
 		$data['page_title'] = $this->config->item('site_name');
-		$data['heading'] = 'Dashboard';
+		$data['heading'] = 'Dashboard';     
 
 		$data['total_sales'] = $this->orders_model->totalSales();
 		$data['total_orders'] = $this->orders_model->count_all();
