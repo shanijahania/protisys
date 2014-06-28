@@ -1,4 +1,5 @@
-<div class="row-fluid">
+<?php if($this->admin_session->userdata['admin']['access'] == 'admin'):?>
+  <div class="row-fluid">
 <div class="span6">
   <div class="widget-box">
     <div class="widget-header">
@@ -76,3 +77,4 @@
       </tbody>
     </table>
 </div>
+<?php endif;?>

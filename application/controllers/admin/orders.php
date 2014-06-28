@@ -30,10 +30,15 @@ class Orders extends Admin_Controller {
 		$limit 			= 0;
 		$sort_by		= "desc";
 		$sort_column	= "orders_id";
-		$uid 			= '';
+		
 		$post_params = array();
 		
-
+		if($this->admin_session->userdata['admin']['access'] != 'admin'):
+			$uid = $this->admin_session->userdata['admin']['id_users'];
+		else:
+			$uid = '';
+		endif;
+		
 		if(isset($_GET['s']) && $_GET['s'] !='')
 		{
 			$str = $_GET['s'];
@@ -289,18 +294,14 @@ class Orders extends Admin_Controller {
 			    	endif;
 
 			    	$this->load->model('order_commision_model');
-			    	$commissions_persantage = '20';
 			    	
 			    	foreach($commissions as $key => $value):
-			    		if($key == '1'):
-			    			$commissions_persantage = '10';
-			    		endif;
 			    		$data = array(
 			    					'ord_id'			=> $insert_id,
 			    					'u_id'				=> $value->user_id,
 			    					'ord_total'			=> $product->product_price,
 			    					'ord_commission'	=> $value->commission,
-			    					'ord_commission_persentage' => $commissions_persantage 
+			    					'ord_commission_persentage' => $value->commissions_persantage 
 			    				);
 			    			$this->order_commision_model->insert($data);
 			    	endforeach;
