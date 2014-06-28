@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 28, 2014 at 10:15 PM
+-- Generation Time: Jun 28, 2014 at 10:22 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `ps_commission` (
   `ord_total` int(11) DEFAULT NULL,
   `ord_commission` int(11) DEFAULT NULL,
   `ord_commission_persentage` varchar(50) DEFAULT NULL,
-  `order_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  `order_date` datetime DEFAULT NULL,
   PRIMARY KEY (`c_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
