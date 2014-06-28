@@ -3,7 +3,7 @@
 <div class="span6">
   <div class="widget-box">
     <div class="widget-header">
-      <h4>Overview & Stats  </h4>
+      <h4>Overview & Stats  (Current Month)</h4>
     </div>
     <div class="widget-body">
       <div class="widget-body-inner">
