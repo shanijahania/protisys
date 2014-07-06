@@ -30,16 +30,16 @@ class Dashboard extends Admin_Controller {
 	{
 		$data = array();
 		$fields = array(
-			'first_name' => 'First Name',
-			'email' => 'Surname', 
-			'postcode' => 'Username', 
-			'showroom' => 'Email'
+			'first_name' 	=> 'First Name',
+			'email' 		=> 'Surname', 
+			'postcode' 		=> 'Username', 
+			'showroom' 		=> 'Email'
 			);
 		
 		$data['fields'] = $fields;
 
 		$str 			= '';
-		$per_page 		= '20';
+		$per_page 		= '10';
 		$limit 			= 0;
 		$sort_by		= "desc";
 		$sort_column	= "orders_id";
@@ -54,9 +54,7 @@ class Dashboard extends Admin_Controller {
 		$post_params['fields'] 		= $fields;
 		$post_params['uid'] 		= $uid;
 		$post_params['access'] 		= 'admin';
-
-		$this->db->join('users as u','u.id_users = user_id');
-		$orders_records = $this->orders_model->orders_info($post_params)->get_all();
+		$orders_records = $this->orders_model->orders_info($post_params)->with('user')->get_all();
 
 		return $orders_records;
 	}

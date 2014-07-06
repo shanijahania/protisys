@@ -3,7 +3,7 @@
 class Users_model extends MY_Model {
 
 	protected $_table = 'users';
-	protected $primary_key = 'id_users';
+	protected $primary_key = 'user_id';
 
 	public function users_info($params)
     {

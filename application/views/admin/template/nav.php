@@ -5,7 +5,7 @@
     <ul class="nav ace-nav pull-right">
       <li class="light-blue user-profile">
         <a class="user-menu dropdown-toggle" href="#" data-toggle="dropdown">
-          <img src="<?php echo get_avatar($this->admin_session->userdata['admin']['id_users'], 'small');?>" alt="img" class="nav-user-photo" />
+          <img src="<?php echo get_avatar($this->admin_session->userdata['admin']['user_id'], 'small');?>" alt="img" class="nav-user-photo" />
           <span id="user_info">
             <small>Welcome </small> <?php echo $this->admin_session->userdata['admin']['name'];?>
           </span>

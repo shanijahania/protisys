@@ -55,14 +55,14 @@
 						<td><?php echo ($row->is_active == '1') ? "Active" : "In Active"; ?></td>
 						<td>
 						<?php if($this->uri->segment(2) != 'clients' ):?>
-							<a href="<?php echo site_url('admin/orders/?uid='.$row->id_users.'&role='.$this->uri->segment(2)); ?>" class="btn btn-primary btn-minier" title="View">Orders</a>
+							<a href="<?php echo site_url('admin/orders/?uid='.$row->user_id.'&role='.$this->uri->segment(2)); ?>" class="btn btn-primary btn-minier" title="View">Orders</a>
 						<?php endif;?>
-							<a href="<?php echo site_url('admin/'.$module.'/show/'.$row->id_users); ?>" class="btn btn-primary btn-minier" title="View">View</a>
+							<a href="<?php echo site_url('admin/'.$module.'/show/'.$row->user_id); ?>" class="btn btn-primary btn-minier" title="View">View</a>
 							<?php if(action_allowed($this->uri->segment(2), 'edit')){?>
-							<a href="<?php echo site_url('admin/'. $module .'/edit/'.$row->id_users); ?>" class="btn btn-minier btn-yellow" title="Edit">Edit</a>
+							<a href="<?php echo site_url('admin/'. $module .'/edit/'.$row->user_id); ?>" class="btn btn-minier btn-yellow" title="Edit">Edit</a>
 							<?php }?>
 							<?php if(action_allowed($this->uri->segment(2), 'delete')){?>
-							<a href="#" class="delete btn btn-danger btn-minier" id="<?php echo encode_ajax_id($row->id_users); ?>" title="Delete">Delete</a>
+							<a href="#" class="delete btn btn-danger btn-minier" id="<?php echo encode_ajax_id($row->user_id); ?>" title="Delete">Delete</a>
 							<?php }?>
 						</td>
 					</tr>

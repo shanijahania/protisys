@@ -145,7 +145,7 @@
 							</div>
 						</div>
 
-						<input type="hidden" name="users_id" value="<?php echo $users_records->id_users; ?>" />
+						<input type="hidden" name="users_id" value="<?php echo $users_records->user_id; ?>" />
 
 					</fieldset>
 				</form>

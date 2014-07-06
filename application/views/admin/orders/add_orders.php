@@ -22,7 +22,7 @@
 					<div class="controls">
 						<select name="client_id" id="client_id">
 							<?php foreach($allClients as $key => $value):?>
-								<option value="<?=$value->id_users?>"><?=$value->name?></option>
+								<option value="<?=$value->user_id?>"><?=$value->name?></option>
 							<?php endforeach;?>
 						</select>
 					</div>

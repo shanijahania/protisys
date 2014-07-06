@@ -8,7 +8,7 @@ if(!function_exists('helper_exist'))
 	{
 		$ci =& get_instance();
 		// return "permission helper exists";
-		print_r($ci->admin_session->userdata['admin']['id_users']);
+		print_r($ci->admin_session->userdata['admin']['user_id']);
 	}
 }
 
@@ -51,7 +51,7 @@ if(!function_exists('action_allowed'))
 		$all_modules = all_modules();
 
 		// login user data
-		$user_id = $ci->admin_session->userdata['admin']['id_users'];
+		$user_id = $ci->admin_session->userdata['admin']['user_id'];
 		$user_access = $ci->admin_session->userdata['admin']['access'];
 
 		if($user_access != 'super_admin')
@@ -91,7 +91,7 @@ if(!function_exists('allowed_modules'))
 		$ci->load->model('permissions_model');
 		$ci->load->model('modules_model');
 
-		$user_id = $ci->admin_session->userdata['admin']['id_users'];
+		$user_id = $ci->admin_session->userdata['admin']['user_id'];
 		$user_access = $ci->admin_session->userdata['admin']['access'];
 		$user_modules = array();
 
@@ -147,7 +147,7 @@ if(!function_exists('is_access'))
 		// create instance
 		$ci =& get_instance();
 
-		$user_id = $ci->admin_session->userdata['admin']['id_users'];
+		$user_id = $ci->admin_session->userdata['admin']['user_id'];
 		$user_access = $ci->admin_session->userdata['admin']['access'];
 
 		if($user_access == $access)

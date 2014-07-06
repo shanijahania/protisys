@@ -96,7 +96,7 @@ if( ! function_exists('get_avatar')){
 		$path = AVATAR_PATH;
 		$ci=& get_instance();
 		$ci->load->database();
-		$sql = "SELECT * from ".$ci->db->dbprefix('users')." WHERE id_users =".$id;
+		$sql = "SELECT * from ".$ci->db->dbprefix('users')." WHERE user_id =".$id;
 		$query = $ci->db->query($sql);
 		$row = $query->row();
 		if(isset($row->avatar)){

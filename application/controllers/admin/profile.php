@@ -20,7 +20,7 @@ class profile extends Admin_Controller {
 		$data['heading'] = 'Edit Profile';
 		$data['action'] = base_url('admin/profile/update');
 
-		$uid = $this->admin_session->userdata['admin']['id_users'];
+		$uid = $this->admin_session->userdata['admin']['user_id'];
 		$data['profile']['name'] = '';
 		$data['profile']['surname'] = '';
 		$data['profile']['username'] = '';
@@ -33,9 +33,9 @@ class profile extends Admin_Controller {
 
 
 		$user = $this->profilemodel->getUser($uid);
-		if($user->id_users)
+		if($user->user_id)
 		{
-			$data['profile']['id'] = $user->id_users;
+			$data['profile']['id'] = $user->user_id;
 		}
 		if($user->name)
 		{

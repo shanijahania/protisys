@@ -62,7 +62,7 @@ class Commission extends Admin_Controller {
 				if(!empty($getPartnerID)):
 					foreach ($getPartnerID as $key => $value) 
 					{
-						$ids_users[$key] = $value->id_users; 
+						$ids_users[$key] = $value->user_id; 
 					}
 				
 					$post_params['ids_users'] = $ids_users;

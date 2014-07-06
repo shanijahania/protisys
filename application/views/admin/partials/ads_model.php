@@ -34,7 +34,7 @@
           <option value="">Select Customer</option>
           <?php foreach ($customers as $customer) { ?>
 
-          <option value="<?php echo $customer->id_users;?>" <?php if($customer->id_users == $ads['customer_id']){echo "selected='selected'";}?>><?php echo $customer->name;?></option>
+          <option value="<?php echo $customer->user_id;?>" <?php if($customer->user_id == $ads['customer_id']){echo "selected='selected'";}?>><?php echo $customer->name;?></option>
           <?php }?>
         </select>
       </div>  

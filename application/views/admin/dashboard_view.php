@@ -1,4 +1,5 @@
 <?php if($this->admin_session->userdata['admin']['access'] == 'super_admin'):?>
+  <pre><?php print_r($orders_records); ?></pre>
   <div class="row-fluid">
 <div class="span6">
   <div class="widget-box">

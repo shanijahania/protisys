@@ -27,7 +27,7 @@ class Users extends Admin_Controller {
 		$per_page 		= '20';
 		$limit 			= 0;
 		$sort_by		= "asc";
-		$sort_column	= "id_users";
+		$sort_column	= "user_id";
 
 		
 
