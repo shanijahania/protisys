@@ -30,7 +30,7 @@ Class usersModel extends CI_Model
 		{	
 			$user = array();
 			$user['user']					= array();
-			$user['user']['id']				= $customer->id_users;
+			$user['user']['id']				= $customer->user_id;
 			$user['user']['access'] 		= $customer->access;
 			$user['user']['name']			= $customer->name;
 			$user['user']['surname']		= $customer->surname;

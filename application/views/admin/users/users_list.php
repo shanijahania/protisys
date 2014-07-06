@@ -48,12 +48,12 @@
 						<td><?php echo $row->access; ?></td>
 						<td><?php echo ($row->is_active == '1') ? "Active" : "In Active"; ?></td>
 						<td>
-							<a href="<?php echo site_url('admin/users/show_user/'.$row->id_users.'/'.encode_id($row->id_users)); ?>" class="btn btn-primary btn-minier" title="View">View</a>
+							<a href="<?php echo site_url('admin/users/show_user/'.$row->user_id.'/'.encode_id($row->user_id)); ?>" class="btn btn-primary btn-minier" title="View">View</a>
 							<?php if(action_allowed('users', 'edit')){?>
-							<a href="<?php echo site_url('admin/users/edit_users/'.$row->id_users.'/'.encode_id($row->id_users)); ?>" class="btn btn-minier btn-yellow" title="Edit">Edit</a>
+							<a href="<?php echo site_url('admin/users/edit_users/'.$row->user_id.'/'.encode_id($row->user_id)); ?>" class="btn btn-minier btn-yellow" title="Edit">Edit</a>
 							<?php }?>
 							<?php if(action_allowed('users', 'delete')){?>
-							<a href="#" class="delete btn btn-danger btn-minier" id="<?php echo encode_ajax_id($row->id_users); ?>" title="Delete">Delete</a>
+							<a href="#" class="delete btn btn-danger btn-minier" id="<?php echo encode_ajax_id($row->user_id); ?>" title="Delete">Delete</a>
 							<?php }?>
 
 						</td>

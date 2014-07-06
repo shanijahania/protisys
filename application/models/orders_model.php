@@ -5,6 +5,10 @@ class Orders_model extends MY_Model {
 	protected $_table = 'ps_orders';
 	protected $primary_key = 'order_id';
 
+    public $belongs_to = array( 'User' );
+    public $has_many = array( 'Order_products' );
+
+
 	public function orders_info($params)
     {
     	$limit      = $params['limit'];

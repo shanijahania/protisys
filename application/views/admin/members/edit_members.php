@@ -17,8 +17,8 @@
 						<div class="controls">
 							<select name="parent_id" id="parent_id">
 								<?php foreach ($salespersons as $key => $value):?>
-									<?php $selected = FALSE; if($value->id_users == $members_records->parent_id): $selected = TRUE; endif;?>
-									<option <?php echo set_select('parent_id', $value->id_users, $selected); ?> value="<?=$value->id_users?>"><?=$value->name?></option>
+									<?php $selected = FALSE; if($value->user_id == $members_records->parent_id): $selected = TRUE; endif;?>
+									<option <?php echo set_select('parent_id', $value->user_id, $selected); ?> value="<?=$value->user_id?>"><?=$value->name?></option>
 								<?php endforeach;?>
 							</select>
 							<?php echo form_error('name', '<span class="help-inline">', '</span>'); ?>
@@ -32,15 +32,15 @@
 						<div class="controls">
 							<select name="parent_id" id="parent_id">
 								<?php foreach ($partners as $key => $value):?>
-									<?php $selected = FALSE; if($value->id_users == $members_records->parent_id): $selected = TRUE; endif;?>
-									<option <?php echo set_select('parent_id', $value->id_users, $selected); ?> value="<?=$value->id_users?>"><?=$value->name?></option>
+									<?php $selected = FALSE; if($value->user_id == $members_records->parent_id): $selected = TRUE; endif;?>
+									<option <?php echo set_select('parent_id', $value->user_id, $selected); ?> value="<?=$value->user_id?>"><?=$value->name?></option>
 								<?php endforeach;?>
 							</select>
 							<?php echo form_error('name', '<span class="help-inline">', '</span>'); ?>
 						</div>
 					</div>	
 				<?php else:?>
-					<input type="hidden" name="parent_id" value="<?=$this->admin_session->userdata['admin']['id_users']?>">
+					<input type="hidden" name="parent_id" value="<?=$this->admin_session->userdata['admin']['user_id']?>">
 				<?php endif;?>
 
 
@@ -173,7 +173,7 @@
 					</div>
 				</div>
 
-				<input type="hidden" name="members_id" value="<?php echo $members_records->id_users; ?>" />
+				<input type="hidden" name="members_id" value="<?php echo $members_records->user_id; ?>" />
 
 			</fieldset>
 		</form>

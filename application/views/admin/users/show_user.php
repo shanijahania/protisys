@@ -68,7 +68,7 @@
 			<p class="span12">
 				<a class="btn" href="<?php echo site_url('admin/users'); ?>"><i class="icon-reply icon-2x icon-only"></i> All Users</a>
 				<?php if(action_allowed('users', 'edit')){?>
-				<a class="btn btn-yellow" href="<?php echo site_url('admin/users/edit_users/'.$users_records->id_users.'/'.encode_id($users_records->id_users)); ?>"><i class="icon-edit icon-2x icon-only"></i> Edit</a>
+				<a class="btn btn-yellow" href="<?php echo site_url('admin/users/edit_users/'.$users_records->user_id.'/'.encode_id($users_records->user_id)); ?>"><i class="icon-edit icon-2x icon-only"></i> Edit</a>
 				<?php } ?>
 			</p>
 			</div>

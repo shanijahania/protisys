@@ -100,11 +100,11 @@ $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
 
-$db['default']['username'] = 'root';
+$db['default']['username'] = 'agucho1_protiapp';
 
-$db['default']['password'] = 'root';
+$db['default']['password'] = 'fp5E1uIZMv7wz9MH';
 
-$db['default']['database'] = 'proti';
+$db['default']['database'] = 'agucho1_protiapp';
 
 $db['default']['dbdriver'] = 'mysql';
 

@@ -15,7 +15,7 @@
 						<div class="controls">
 							<select name="parent_id" id="parent_id">
 								<?php foreach ($salespersons as $key => $value):?>
-									<option value="<?=$value->id_users?>"><?=$value->name?></option>
+									<option value="<?=$value->user_id?>"><?=$value->name?></option>
 								<?php endforeach;?>
 							</select>
 							<?php echo form_error('name', '<span class="help-inline">', '</span>'); ?>
@@ -29,14 +29,14 @@
 						<div class="controls">
 							<select name="parent_id" id="parent_id">
 								<?php foreach ($partners as $key => $value):?>
-									<option value="<?=$value->id_users?>"><?=$value->name?></option>
+									<option value="<?=$value->user_id?>"><?=$value->name?></option>
 								<?php endforeach;?>
 							</select>
 							<?php echo form_error('name', '<span class="help-inline">', '</span>'); ?>
 						</div>
 					</div>	
 				<?php else:?>
-					<input type="hidden" name="parent_id" value="<?=$this->admin_session->userdata['admin']['id_users']?>">
+					<input type="hidden" name="parent_id" value="<?=$this->admin_session->userdata['admin']['user_id']?>">
 				<?php endif;?>
 				<?php $error = ''; if(form_error('name')){ $error = 'error'; } ?>
 

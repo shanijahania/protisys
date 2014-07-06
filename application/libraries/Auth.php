@@ -37,7 +37,7 @@ class Auth
 		$admin = $this->CI->admin_session->userdata('admin');
 		
 		$this->CI->db->select('access');
-		$this->CI->db->where('id_users', $admin['id_users']);
+		$this->CI->db->where('user_id', $admin['user_id']);
 		$this->CI->db->limit(1);
 		$result = $this->CI->db->get('users');
 		$result	= $result->row();
@@ -282,7 +282,7 @@ class Auth
 		{
 			if($result['access'] != 'super_admin')
 			{
-				$query_permissions 	= $this->CI->db->get_where('permissions', array('users_id' => $result['id_users']));
+				$query_permissions 	= $this->CI->db->get_where('permissions', array('users_id' => $result['user_id']));
 				$permissions		= $query_permissions->result();
 				$set_permissions = array();
 
@@ -304,7 +304,7 @@ class Auth
 			}
 			$admin = array();
 			$admin['admin']			= array();
-			$admin['admin']['id_users']		= $result['id_users'];
+			$admin['admin']['user_id']		= $result['user_id'];
 			$admin['admin']['access'] 		= $result['access'];
 			$admin['admin']['name']			= $result['name'];
 			$admin['admin']['surname']		= $result['surname'];

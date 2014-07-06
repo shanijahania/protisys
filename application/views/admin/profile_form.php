@@ -2,7 +2,7 @@
   <div class="span8">
     <div class="form">
       <form class="form form-horizontal" id="profile_frm" method="post" action="<?php echo $action;?>" enctype='multipart/form-data'>
-      <input type="hidden" name="profile_id" value="<?php echo $this->admin_session->userdata['admin']['id_users'];?>">
+      <input type="hidden" name="profile_id" value="<?php echo $this->admin_session->userdata['admin']['user_id'];?>">
       <input type="hidden" name="token" value="<?php echo $profile['password'];?>">
       <input type="hidden" name="avatar" value="<?php echo $profile['avatar'];?>">
         <div class="control-group">

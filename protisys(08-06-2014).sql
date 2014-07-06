@@ -429,7 +429,7 @@ INSERT INTO `ps_showrooms` (`showroom_id`, `user_id`, `name`, `description`, `ad
 --
 
 CREATE TABLE IF NOT EXISTS `ps_users` (
-  `id_users` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `surname` varchar(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
@@ -444,14 +444,14 @@ CREATE TABLE IF NOT EXISTS `ps_users` (
   `access` varchar(45) DEFAULT NULL,
   `parent_id` int(11) NOT NULL,
   `is_active` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_users`)
+  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
 -- Dumping data for table `ps_users`
 --
 
-INSERT INTO `ps_users` (`id_users`, `name`, `surname`, `username`, `password`, `email`, `mobile`, `address`, `postcode`, `gender`, `created_at`, `modified_at`, `access`, `parent_id`, `is_active`) VALUES
+INSERT INTO `ps_users` (`user_id`, `name`, `surname`, `username`, `password`, `email`, `mobile`, `address`, `postcode`, `gender`, `created_at`, `modified_at`, `access`, `parent_id`, `is_active`) VALUES
 (1, 'admin', 'admin', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin@admin.com', NULL, NULL, NULL, 0, '2014-05-24 00:00:00', '2014-05-24 00:00:00', 'super_admin', 0, 1),
 (14, 'saleperson', 'user', 'saleperson@admin.com', 'a4d4f214875c03340efe0589ad49fdc29c9556ba', 'saleperson@admin.com', '(123) 456-7899', 'lahore', '54000', 0, '2014-06-08 00:53:41', '2014-06-08 00:53:41', 'salesperson', 1, 1),
 (15, 'partner', 'user', 'partner@admin.com', '3624db883007efa198232b3aa774a54360ed3f26', 'partner@admin.com', '(123) 456-7895', 'lahore', '54000', 0, '2014-06-08 00:55:45', '2014-06-08 00:55:45', 'partners', 14, 1),

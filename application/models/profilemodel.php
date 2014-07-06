@@ -5,7 +5,7 @@ Class profilemodel extends CI_Model
 
 		$sql = "SELECT * FROM ".$this->db->dbprefix('users');
 		if($uid){
-			$sql .= " WHERE id_users = '".$uid."'";
+			$sql .= " WHERE user_id = '".$uid."'";
 		}
 		$limit = '';
 		// echo $sql;
@@ -28,7 +28,7 @@ Class profilemodel extends CI_Model
 			'avatar'=>		$data['avatar'],
 			'modified_at'=>	$data['modified_at']
 		);	
-		$this->db->where('id_users', $id);
+		$this->db->where('user_id', $id);
 		if($this->db->update('users', $update)){
 			return true;
 		}else{

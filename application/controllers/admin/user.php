@@ -52,7 +52,7 @@ class User extends Admin_Controller {
 		$users = $this->usersModel->getUsers($limit, $per_page, $str);
 		foreach ($users as $user) {
 
-			$stats = $this->usersModel->getUserStats($user->id_users);
+			$stats = $this->usersModel->getUserStats($user->user_id);
 
 			$stat_posts 		= '0';
 			$stat_likes 		= '0';
@@ -77,7 +77,7 @@ class User extends Admin_Controller {
 			}
 
 			$userArray[] = array(
-				'id' =>				$user->id_users,
+				'id' =>				$user->user_id,
 				'name' => 			$user->name,
 				'surname' => 		$user->surname,
 				'username' => 		$user->username,
@@ -118,7 +118,7 @@ class User extends Admin_Controller {
 		$view = 'ajax';
 		$user = $this->usersModel->getUserByID($user_id);
 		$userArray = array(
-			'id' =>				$user->id_users,
+			'id' =>				$user->user_id,
 			'name' => 			$user->name,
 			'surname' => 		$user->surname,
 			'username' => 		$user->username,

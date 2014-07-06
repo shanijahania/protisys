@@ -41,7 +41,7 @@ class Members extends Admin_Controller {
 		$per_page 		= '20';
 		$limit 			= 0;
 		$sort_by		= "asc";
-		$sort_column	= "id_users";
+		$sort_column	= "user_id";
 
 		
 
@@ -82,7 +82,7 @@ class Members extends Admin_Controller {
 		$post_params['parent_id']	= '';
 
 		if($this->admin_session->userdata['admin']['access'] != 'super_admin'):
-			$post_params['parent_id'] = $this->admin_session->userdata['admin']['id_users'];
+			$post_params['parent_id'] = $this->admin_session->userdata['admin']['user_id'];
 		endif;
 
 		// pagination code goes here
@@ -266,7 +266,7 @@ class Members extends Admin_Controller {
 	    		
 	    		$object = new stdClass();
 
-	    		$object->id_users 	= $this->admin_session->userdata['admin']['id_users'];
+	    		$object->user_id 	= $this->admin_session->userdata['admin']['user_id'];
 	    		$object->name 		= 'Admin';
 
 	    		$parent_array = array($object);
@@ -280,7 +280,7 @@ class Members extends Admin_Controller {
 	    		
 	    		$object = new stdClass();
 
-	    		$object->id_users 	= $this->admin_session->userdata['admin']['id_users'];
+	    		$object->user_id 	= $this->admin_session->userdata['admin']['user_id'];
 	    		$object->name 		= 'Direct Client';
 
 	    		$parent_array = array($object);
@@ -401,7 +401,7 @@ class Members extends Admin_Controller {
 	    		
 	    		$object = new stdClass();
 
-	    		$object->id_users 	= $this->admin_session->userdata['admin']['id_users'];
+	    		$object->user_id 	= $this->admin_session->userdata['admin']['user_id'];
 	    		$object->name 		= 'Admin';
 
 	    		$parent_array = array($object);
@@ -415,7 +415,7 @@ class Members extends Admin_Controller {
 	    		
 	    		$object = new stdClass();
 
-	    		$object->id_users 	= $this->admin_session->userdata['admin']['id_users'];
+	    		$object->user_id 	= $this->admin_session->userdata['admin']['user_id'];
 	    		$object->name 		= 'Direct Client';
 
 	    		$parent_array = array($object);
@@ -480,7 +480,7 @@ class Members extends Admin_Controller {
 		}
 
 		$this->load->model('order_commision_model');
-		$this->db->join('users','id_users = u_id');
+		$this->db->join('users','user_id = u_id');
 		$this->db->where(array('u_id'=>$this->uri->segment(4)));
 		
 		$data['members_records'] = $this->order_commision_model->get_many_by();
