@@ -25,6 +25,7 @@ class Commission extends Admin_Controller {
 		$start 			= '';
 		$end 			= '';
 		$u_type			= '';
+		$c_status		= '';
 		$post_params = array();
 		
 
@@ -42,6 +43,12 @@ class Commission extends Admin_Controller {
 		{
 			$u_type = $_GET['u_type'];
 			$uri_string = '&u_type='.$_GET['u_type'];
+		}
+
+		if(isset($_GET['c_status']) && $_GET['c_status'] !=' ')
+		{
+			$c_status = $_GET['c_status'];
+			$uri_string = '&c_status='.$_GET['c_status'];
 		}
 
 		if(isset($_GET['start']) && $_GET['start'] !='' && isset($_GET['end']) && $_GET['end'] !='')
@@ -99,6 +106,7 @@ class Commission extends Admin_Controller {
 		$post_params['start'] 		= $start;
 		$post_params['end'] 		= $end;
 		$post_params['u_type']		= $u_type;
+		$post_params['c_status']		= $c_status;
 
 		// pagination code goes here
 		
@@ -117,7 +125,7 @@ class Commission extends Admin_Controller {
 		$data['pagination'] = $pagination;
 
 		$comm_records = $this->order_commision_model->orders_info($post_params)->get_all();
-
+		
 		// echo $this->db->last_query();die();
 		$data['comm_records'] = $comm_records;
 
@@ -131,6 +139,13 @@ class Commission extends Admin_Controller {
 	    $data['main'] = 'admin/members/members_commission_list';
 
 		$this->load->view('admin/template/layout',$data);
+	}
+
+	public function updateStatus()
+	{
+		$data = array('comm_status' => $this->input->post('comm_status') );
+		$c_id = $this->input->post('com_id');
+		$this->order_commision_model->update($c_id,$data);
 	}
 }
 ?>

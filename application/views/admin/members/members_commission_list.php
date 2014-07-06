@@ -27,6 +27,29 @@
 								<option value="salesperson" <?=$salesperson?>>Sale Representative </option>
 								<option value="partners" <?=$partners?>>Partners </option>
 				            </select>
+
+				            <select id="c_status" name="c_status">
+								<?php
+									$pending = '';
+									$paid = '';
+									if(isset($_GET['c_status']))
+									{
+										if($_GET['c_status'] == 'pending')
+										{
+											$pending = 'selected';
+										}
+										elseif($_GET['c_status'] == 'paid')
+										{
+											$paid = 'selected';
+										}
+
+									}
+								?>
+								<option value=" ">All Status</option>
+								<option value="pending" <?=$pending?>>Pending</option>
+								<option value="paid" <?=$paid?>>Paid </option>
+				            </select>
+
 				            <div class="input-daterange inline" id="datepicker" >   
 					            <input type="text" class="input-small" value="<?=@$_GET['start']?>" name="start" placeholder="Start Date" readonly="readonly" />
 			                    <span class="add-on" style="vertical-align: top;height:20px">to</span>
@@ -45,11 +68,12 @@
 				<thead>
 					<tr>
 						<th>No.</th>
-						<th>Order ID</th>
 						<th>User Name</th>
 						<th>Order Amount</th>
 						<th>Commission</th>
 						<th>Commission Persentage</th>
+						<th>Commission Status</th>
+						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -58,11 +82,22 @@
 					?>
 					<tr>
 						<td><?php echo $num;?></td>
-						<td><?php echo $row->ord_id; ?></td>
 						<td><?php echo $row->name; ?></td>
 						<td><?php echo $row->ord_total; ?></td>
 						<td><?php echo $row->ord_commission; ?></td>
 						<td><?php echo $row->ord_commission_persentage; ?> %</td>
+						<td>
+							<form id="<?=$row->c_id?>" action="" method="post">
+								<input type="hidden" name="com_id" value="<?=$row->c_id?>" />
+								<select name="comm_status">
+									<option value="0" <?php if($row->comm_status == 0){?> selected<?php }?>>Pending</option>
+									<option value="1" <?php if($row->comm_status == 1){?> selected<?php }?>>Paid</option>
+								</select>
+							</form>
+						</td>
+						<td>
+							<a href="<?php echo site_url('admin/orders/show_order/'.$row->ord_id.'/'.encode_id($row->ord_id)); ?>" class="btn btn-primary btn-minier" title="View">View</a>
+						</td>
 					</tr>
 				<?php endforeach; ?>
 			<?php else : ?>
@@ -71,6 +106,21 @@
 	</table>
 	<script type="text/javascript">
 		$(document).ready(function(){
+
+			$('select[name=comm_status]').on('change',function(){
+				var form = $(this).parent('form').attr('id');
+				$.ajax({
+					      type: "POST",
+					      url: '<?=base_url("admin/commission/updateStatus")?>' ,
+					      data: $('#'+form).serialize(),
+					      success: function( response ) {
+					        //console.log( response );
+					      }
+					    });
+
+
+			});
+
 			$('.input-daterange').datepicker({
                 format: "yyyy-mm-dd",
                 autoclose: true

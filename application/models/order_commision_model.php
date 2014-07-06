@@ -16,6 +16,7 @@ class Order_commision_model extends MY_Model {
         $u_type		= $params['u_type'];
         $start      = $params['start'];
         $end        = $params['end'];
+        $c_status   = $params['c_status'];
 
         if($str)
         {
@@ -30,6 +31,15 @@ class Order_commision_model extends MY_Model {
         if($u_type)
         {
         	$this->db->where('access',$u_type);
+        }
+
+        if($c_status == 'paid')
+        {
+            $this->db->where('comm_status',1);
+        }
+        elseif($c_status == 'pending')
+        {
+            $this->db->where('comm_status',0);
         }
 
         if($start && $end)
@@ -51,8 +61,10 @@ class Order_commision_model extends MY_Model {
         $sort_by    = $params['sort_by'];
         $sort_column= $params['sort_column'];
         $uid        = $params['uid'];
+        $u_type     = $params['u_type'];
         $start      = $params['start'];
         $end        = $params['end'];
+        $c_status   = $params['c_status'];
         
         if($str)
         {
@@ -62,6 +74,20 @@ class Order_commision_model extends MY_Model {
         if($uid)
         {
             $this->db->where('u_id', $uid);
+        }
+
+        if($u_type)
+        {
+            $this->db->where('access',$u_type);
+        }
+
+        if($c_status == 'paid')
+        {
+            $this->db->where('comm_status',1);
+        }
+        elseif($c_status == 'pending')
+        {
+            $this->db->where('comm_status',0);
         }
 
         if($start && $end)
