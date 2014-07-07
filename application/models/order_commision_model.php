@@ -101,6 +101,21 @@ class Order_commision_model extends MY_Model {
 
         return $count;
     }
-
+    function total_commission($type)
+    {
+        if($type != 'all')
+        {
+            if($type == 'paid')
+            {
+                $this->db->where('comm_status', 1);    
+            }
+            else
+            {
+                $this->db->where('comm_status', 0);    
+            }
+        }
+        $this->db->select_sum('ord_commission');
+        return $this;
+    }
 }
 ?>

@@ -126,7 +126,7 @@ class Commission extends Admin_Controller {
 
 		$comm_records = $this->order_commision_model->orders_info($post_params)->get_all();
 		
-		// echo $this->db->last_query();die();
+		//echo $this->db->last_query();die();
 		$data['comm_records'] = $comm_records;
 
 		$data['sort_by'] 		= $sort_by;
@@ -145,7 +145,14 @@ class Commission extends Admin_Controller {
 	{
 		$data = array('comm_status' => $this->input->post('comm_status') );
 		$c_id = $this->input->post('com_id');
-		$this->order_commision_model->update($c_id,$data);
+		if($this->order_commision_model->update($c_id,$data))
+		{
+			echo 1;
+		}
+		else
+		{
+			echo 0;
+		}
 	}
 }
 ?>
