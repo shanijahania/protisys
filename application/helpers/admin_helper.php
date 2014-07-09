@@ -419,6 +419,39 @@ if(!function_exists('get_attr_hash'))
 	}
 }
 
+if(!function_exists('sendHtmlMail'))
+{
+	function sendHtmlMail($from,$fromName = '',$to,$subject,$html)
+	{
+		$ci =& get_instance();
+
+		$ci->load->library('email');
+
+		$config['protocol'] = 'sendmail';
+		$config['mailpath'] = '/usr/sbin/sendmail';
+		$config['charset'] = 'iso-8859-1';
+		$config['mailtype'] = 'html';
+		$config['wordwrap'] = TRUE;
+
+		$ci->email->initialize($config);
+
+		$ci->email->from($from, $fromName);
+		$ci->email->to($to);
+
+		$ci->email->subject($subject);
+		$ci->email->message($html);
+
+		if($ci->email->send())
+		{
+			return true;
+		}
+		else
+		{
+			return $ci->email->print_debugger();
+		}
+	}
+}
+
 if(!function_exists('order_status'))
 {
 	function order_status()
