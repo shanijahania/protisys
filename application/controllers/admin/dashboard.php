@@ -53,7 +53,7 @@ class Dashboard extends Admin_Controller {
 		$per_page 		= '10';
 		$limit 			= 0;
 		$sort_by		= "desc";
-		$sort_column	= "orders_id";
+		$sort_column	= "order_id";
 		$uid 			= '';
 		$post_params = array();
 		
@@ -64,6 +64,7 @@ class Dashboard extends Admin_Controller {
 		$post_params['sort_by'] 	= $sort_by;
 		$post_params['fields'] 		= $fields;
 		$post_params['uid'] 		= $uid;
+		$post_params['is_complete'] = 'complete';
 		$post_params['access'] 		= 'admin';
 
 		$this->db->join('users as u','u.user_id = orders.user_id');

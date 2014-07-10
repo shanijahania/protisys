@@ -46,13 +46,25 @@
 					<td><?php echo $row->address; ?></td>
 					<td><?php echo $row->status; ?></td>
 					<td>
+					<?php if($this->admin_session->userdata['admin']['access'] != 'super_admin'){?>
 						<a href="<?php echo site_url('admin/orders/show_order/'.$row->order_id.'/'.encode_id($row->order_id)); ?>" class="btn btn-primary btn-minier" title="View">View</a>
-						<?php if(action_allowed('orders', 'edit')){?>
-						<a href="<?php echo site_url('admin/orders/edit_orders/'.$row->order_id.'/'.encode_id($row->order_id)); ?>" class="btn btn-minier btn-yellow" title="Edit">Edit</a>
-						<?php }?>
-						<?php if(action_allowed('orders', 'delete')){?>
+						<?php if($row->is_checkout == 0){?>
+							<?php if(action_allowed('orders', 'edit')){?>
+								<a href="<?php echo site_url('admin/orders/edit_orders/'.$row->order_id.'/'.encode_id($row->order_id)); ?>" class="btn btn-minier btn-yellow" title="Edit">Edit</a>
+							<?php }?>
+						<a href="<?php echo base_url('admin/orders/confirm_order/'.$row->order_id)?>" class="btn btn-info btn-minier" title="Confirm Order">Confirm</a>
 						<a href="#" class="delete btn btn-danger btn-minier" id="<?php echo encode_ajax_id($row->order_id); ?>" title="Delete">Delete</a>
 						<?php }?>
+					<?php }else{?>
+						<a href="<?php echo site_url('admin/orders/show_order/'.$row->order_id.'/'.encode_id($row->order_id)); ?>" class="btn btn-primary btn-minier" title="View">View</a>
+						<a href="#" class="delete btn btn-danger btn-minier" id="<?php echo encode_ajax_id($row->order_id); ?>" title="Delete">Delete</a>
+						<a href="<?php echo site_url('admin/orders/edit_orders/'.$row->order_id.'/'.encode_id($row->order_id)); ?>" class="btn btn-minier btn-yellow" title="Edit">Edit</a>
+						<?php if($row->is_checkout == 0){?>
+							<?php if(action_allowed('orders', 'edit')){?>						
+								<a href="<?php echo base_url('admin/orders/confirm_order/'.$row->order_id)?>" class="btn btn-info btn-minier" title="Confirm Order">Confirm</a>
+							<?php }?>
+						<?php } ?>
+					<?php } ?>	
 					</td>
 				</tr>
 				<?php endforeach; ?>

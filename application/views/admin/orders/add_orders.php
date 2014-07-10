@@ -4,19 +4,33 @@
 		<input type="hidden" name="status" value="Pending">
 		<input type="hidden" name="is_active" value="1">
 			<fieldset>
-				
-				<div class="control-group formSep ">
-					<label for="select01" class="control-label">Product *</label>
+
+				<?php $error = ''; if(form_error('product_id')){ $error = 'error'; } ?>
+				<div class="control-group formSep <?php echo $error; ?>">
+					<label for="product_id" class="control-label">Product *</label>
 					<div class="controls">
 						<select name="product_id" id="product_id">
 							<option value="">Select One</option>
 							<?php foreach($allProducts as $key => $value):?>
-								<option value="<?=$value->product_id?>"><?=$value->product_name?></option>
+								<option <?php echo  set_select('product_id', $value->product_id); ?> value="<?=$value->product_id?>"><?=$value->product_name?></option>
 							<?php endforeach;?>
 						</select>
+						<?php echo form_error('product_id', '<span class="help-inline">', '</span>'); ?>
 					</div>
 				</div>
-
+				<?php $error = ''; if(form_error('qty')){ $error = 'error'; } ?>
+					<div class="control-group formSep <?php echo $error; ?>">
+						<label for="qty" class="control-label">Quantity <span class="f_req">*</span></label>
+						<div class="controls">
+							<select name="qty" id="qty"  class="input-small">
+								<option value="1" <?php echo  set_select('qty', '1'); ?>>1</option>
+								<option value="2" <?php echo  set_select('qty', '2'); ?>>2</option>
+								<option value="2" <?php echo  set_select('qty', '3'); ?>>3</option>
+								<option value="2" <?php echo  set_select('qty', '4'); ?>>4</option>
+							</select>
+							<?php echo form_error('qty', '<span class="help-inline">', '</span>'); ?>
+						</div>
+					</div>
 				<div class="control-group formSep ">
 					<label for="select01" class="control-label">Clients</label>
 					<div class="controls">
@@ -88,13 +102,22 @@
 						</div>
 					</div>
 				</div>
-
-				
-				
+				<div class="control-group formSep <?php echo $error; ?>">
+						<label for="select01" class="control-label">Payment Method <span class="f_req">*</span></label>
+						<div class="controls">
+							<label>
+								<input type="radio" name="payment_method" <?=set_radio('payment_method', 'cash')?> value="cash"><span class="lbl"> Cash</span>
+							</label>
+							<label>
+								<input type="radio" name="payment_method" <?=set_radio('payment_method', 'paypal')?> value="paypal"><span class="lbl"> Paypal</span>
+							</label>
+						</div>
+					</div>
 				<div class="control-group">
 					<div class="controls">
-						<button class="btn btn-gebo btn-success" type="submit"><i class="icon-save"></i> Save</button>
+						
 						<a class="btn" href="<?php echo site_url('admin/orders'); ?>"><i class="icon-remove"></i> Cancel</a>
+						<button class="btn btn-gebo btn-success" type="submit"><i class="icon-save"></i> Proceed</button>
 					</div>
 				</div>
 

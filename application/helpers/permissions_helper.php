@@ -100,14 +100,33 @@ if(!function_exists('allowed_modules'))
 			$modules = $ci->permissions_model->getPermissionsByUser($user_id)->get_many_by('users_id', $user_id);	
 			foreach ($modules as $module) 
 			{
-				$user_modules[$module->name] = array(
+				if($module->name == 'orders')
+				{
+					$user_modules[$module->name] = array(
+					'permission_id' => $module->id_permission,
+					'module_id' 	=> $module->modules_id,
+					'view' 			=> $module->view,
+					'add' 			=> $module->add,
+					'edit' 			=> $module->edit,
+					'delete' 		=> $module->delete,
+					'confirm'		=> 1,
+					'checkout'		=> 1,
+					'success'		=> 1,
+					'process'		=> 1,
+					'save'			=> 1
+					);	
+				}
+				else
+				{
+					$user_modules[$module->name] = array(
 					'permission_id' => $module->id_permission,
 					'module_id' 	=> $module->modules_id,
 					'view' 			=> $module->view,
 					'add' 			=> $module->add,
 					'edit' 			=> $module->edit,
 					'delete' 		=> $module->delete
-					);
+					);	
+				}
 			}
 		}
 		else

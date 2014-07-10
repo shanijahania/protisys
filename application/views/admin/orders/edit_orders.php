@@ -1,135 +1,143 @@
-
-
 <div class="row-fluid">
-	<div class="span12">
-		<div class="row-fluid">
-			<div class="span8">
-				<form class="form-horizontal" action="<?php echo site_url('admin/orders/edit_orders'); ?>" method="post" >
-					<fieldset>
-						
-						<?php $error = ''; if(form_error('first_name')){ $error = 'error'; } ?>
+	<div class="">
+		<form class="form-horizontal" action="<?php echo current_url(); ?>" method="post" >
+		<input type="hidden" name="status" value="Pending">
+		<input type="hidden" name="is_active" value="1">
+			<fieldset>
 
-						<div class="control-group formSep <?php echo $error; ?>">
-							<label for="select01" class="control-label">First Name <span class="f_req">*</span></label>
-							<div class="controls">
-								<input type="text" name="first_name" id="first_name" value="<?php echo set_value('first_name',$orders_records->first_name); ?>" class="input-xlarge"  >
-								<?php echo form_error('first_name', '<span class="help-inline">', '</span>'); ?>
-							</div>
-						</div>
-						
-						<?php $error = ''; if(form_error('surname')){ $error = 'error'; } ?>
-
-						<div class="control-group formSep <?php echo $error; ?>">
-							<label for="select01" class="control-label">Surname </label>
-							<div class="controls">
-								<input type="text" name="surname" id="surname" value="<?php echo set_value('surname',$orders_records->surname); ?>" class="input-xlarge"  >
-								<?php echo form_error('surname', '<span class="help-inline">', '</span>'); ?>
-							</div>
-						</div>
-						
-						<?php $error = ''; if(form_error('email')){ $error = 'error'; } ?>
-
-						<div class="control-group formSep <?php echo $error; ?>">
-							<label for="select01" class="control-label">Email <span class="f_req">*</span></label>
-							<div class="controls">
-								<input type="text" name="email" id="email" value="<?php echo set_value('email',$orders_records->email); ?>" class="input-xlarge"  >
-								<?php echo form_error('email', '<span class="help-inline">', '</span>'); ?>
-							</div>
-						</div>
-						
-						<?php $error = ''; if(form_error('phone')){ $error = 'error'; } ?>
-
-						<div class="control-group formSep <?php echo $error; ?>">
-							<label for="select01" class="control-label">Phone <span class="f_req">*</span></label>
-							<div class="controls">
-								<input type="text" name="phone" id="phone" value="<?php echo set_value('phone',$orders_records->phone); ?>" class="input-xlarge"  >
-								<?php echo form_error('phone', '<span class="help-inline">', '</span>'); ?>
-							</div>
-						</div>
-						
-						<?php $error = ''; if(form_error('postcode')){ $error = 'error'; } ?>
-
-						<div class="control-group formSep <?php echo $error; ?>">
-							<label for="select01" class="control-label">Postcode </label>
-							<div class="controls">
-								<input type="text" name="postcode" id="postcode" value="<?php echo set_value('postcode',$orders_records->postcode); ?>" class="input-xlarge"  >
-								<?php echo form_error('postcode', '<span class="help-inline">', '</span>'); ?>
-							</div>
-						</div>
-						
-						<?php $error = ''; if(form_error('address')){ $error = 'error'; } ?>
-
-						<div class="control-group formSep <?php echo $error; ?>">
-							<label for="select01" class="control-label">Address <span class="f_req">*</span></label>
-							<div class="controls">
-								<textarea rows="3" cols="10" id="address" name="address"><?php echo set_value('address',$orders_records->address); ?></textarea>
-								<?php echo form_error('address', '<span class="help-inline">', '</span>'); ?>
-							</div>
-						</div>
-						
-						<?php $error = ''; if(form_error('showroom_id')){ $error = 'error'; } ?>
-
-						<div class="control-group formSep <?php echo $error; ?>">
-							<label for="select01" class="control-label">Showroom <span class="f_req">*</span></label>
-							<div class="controls">
-								<select name="showroom_id" id="showroom_id" class="input-xlarge chosen">
-									<option value="">Select Showroom</option>
-									<?php if(isset($showroom_records)) : foreach($showroom_records as $row) :
-									$selected = FALSE; if($orders_records->showroom_id==$row->showroom_id){ $selected = TRUE; }
-									?>
-									<option value="<?php echo $row->showroom_id; ?>" <?php echo set_select('showroom_id', $row->showroom_id,$selected); ?>  >
-										<?php echo $row->name; ?></option>
-									<?php endforeach; ?>
-								<?php endif; ?>
-								</select>
-								<?php echo form_error('showroom_id', '<span class="help-inline">', '</span>'); ?>
-							</div>
-						</div>
-					
-					<?php $error = ''; if(form_error('vehicle_registration')){ $error = 'error'; } ?>
-
-					<div class="control-group formSep <?php echo $error; ?>">
-						<label for="select01" class="control-label">Vehicle Registration <span class="f_req">*</span></label>
-						<div class="controls">
-							<input type="text" name="vehicle_registration" id="vehicle_registration" value="<?php echo set_value('vehicle_registration',$orders_records->vehicle_registration); ?>" class="input-xlarge"  >
-							<?php echo form_error('vehicle_registration', '<span class="help-inline">', '</span>'); ?>
-						</div>
+				<?php $error = ''; if(form_error('product_id')){ $error = 'error'; } ?>
+				<div class="control-group formSep <?php echo $error; ?>">
+					<label for="product_id" class="control-label">Product *</label>
+					<div class="controls">
+						<select name="product_id" id="product_id">
+							<option value="">Select One</option>
+							<?php foreach($allProducts as $key => $value):?>
+								<option <?php echo  set_select('product_id', $value->product_id); ?> value="<?=$value->product_id?>"><?=$value->product_name?></option>
+							<?php endforeach;?>
+						</select>
+						<?php echo form_error('product_id', '<span class="help-inline">', '</span>'); ?>
 					</div>
-					
-					<?php $error = ''; if(form_error('is_active')){ $error = 'error'; } ?>
-
-					<?php $error = ''; if(form_error('status')){ $error = 'error'; } ?>
-
+				</div>
+				<?php $error = ''; if(form_error('qty')){ $error = 'error'; } ?>
 					<div class="control-group formSep <?php echo $error; ?>">
-						<label for="select01" class="control-label">Status <span class="f_req">*</span></label>
+						<label for="qty" class="control-label">Quantity <span class="f_req">*</span></label>
 						<div class="controls">
-							<select name="status" id="status" class="input-xlarge chosen">
-								<option value="">Select Status</option>
-								<?php if(isset($order_status)) : foreach($order_status as $row) :
-								$selected = FALSE; if($orders_records->status==$row->name){ $selected = TRUE; }
-								?>
-								<option value="<?php echo $row->name; ?>" <?php echo set_select('status', $row->name,$selected); ?>  >
-									<?php echo $row->name; ?></option>
-								<?php endforeach; ?>
-							<?php endif; ?>
+							<select name="qty" id="qty"  class="input-small">
+								<option value="1" <?php echo  set_select('qty', '1'); ?>>1</option>
+								<option value="2" <?php echo  set_select('qty', '2'); ?>>2</option>
+								<option value="2" <?php echo  set_select('qty', '3'); ?>>3</option>
+								<option value="2" <?php echo  set_select('qty', '4'); ?>>4</option>
 							</select>
-							<?php echo form_error('status', '<span class="help-inline">', '</span>'); ?>
+							<?php echo form_error('qty', '<span class="help-inline">', '</span>'); ?>
+						</div>
+					</div>
+				<div class="control-group formSep ">
+					<label for="select01" class="control-label">Clients</label>
+					<div class="controls">
+						<select name="client_id" id="client_id">
+							<?php foreach($allClients as $key => $value):?>
+								<option value="<?=$value->user_id?>"><?=$value->name?></option>
+							<?php endforeach;?>
+						</select>
+					</div>
+				</div>
+
+				<div class="other_user">
+					<?php $error = ''; if(form_error('first_name')){ $error = 'error'; } ?>
+					<div class="control-group formSep <?php echo $error; ?>">
+						<label for="select01" class="control-label">First Name <span class="f_req">*</span></label>
+						<div class="controls">
+							<input type="text" name="first_name" id="first_name" value="<?php echo set_value('first_name'); ?>" class="input-xlarge"  >
+							<?php echo form_error('first_name', '<span class="help-inline">', '</span>'); ?>
 						</div>
 					</div>
 					
-					<div class="control-group">
+					<?php $error = ''; if(form_error('surname')){ $error = 'error'; } ?>
+
+					<div class="control-group formSep <?php echo $error; ?>">
+						<label for="select01" class="control-label">Surname </label>
 						<div class="controls">
-							<button class="btn btn-gebo btn-success" type="submit"><i class="icon-save"></i> Save Changes</button>
-							<a class="btn" href="<?php echo site_url('admin/orders'); ?>"><i class="icon-remove"></i> Cancel</a>
+							<input type="text" name="surname" id="surname" value="<?php echo set_value('surname'); ?>" class="input-xlarge"  >
+							<?php echo form_error('surname', '<span class="help-inline">', '</span>'); ?>
 						</div>
 					</div>
+					
+					<?php $error = ''; if(form_error('email')){ $error = 'error'; } ?>
 
-					<input type="hidden" name="orders_id" value="<?php echo $orders_records->order_id; ?>" />
+					<div class="control-group formSep <?php echo $error; ?>">
+						<label for="select01" class="control-label">Email <span class="f_req">*</span></label>
+						<div class="controls">
+							<input type="text" name="email" id="email" value="<?php echo set_value('email'); ?>" class="input-xlarge"  >
+							<?php echo form_error('email', '<span class="help-inline">', '</span>'); ?>
+						</div>
+					</div>
+					
+					<?php $error = ''; if(form_error('phone')){ $error = 'error'; } ?>
 
-				</fieldset>
-			</form>
-		</div>
+					<div class="control-group formSep <?php echo $error; ?>">
+						<label for="select01" class="control-label">Phone <span class="f_req">*</span></label>
+						<div class="controls">
+							<input type="text" name="phone" id="phone" value="<?php echo set_value('phone'); ?>" class="input-xlarge"  >
+							<?php echo form_error('phone', '<span class="help-inline">', '</span>'); ?>
+						</div>
+					</div>
+					
+					<?php $error = ''; if(form_error('postcode')){ $error = 'error'; } ?>
+
+					<div class="control-group formSep <?php echo $error; ?>">
+						<label for="select01" class="control-label">Postcode </label>
+						<div class="controls">
+							<input type="text" name="postcode" id="postcode" value="<?php echo set_value('postcode'); ?>" class="input-xlarge"  >
+							<?php echo form_error('postcode', '<span class="help-inline">', '</span>'); ?>
+						</div>
+					</div>
+					
+					<?php $error = ''; if(form_error('address')){ $error = 'error'; } ?>
+
+					<div class="control-group formSep <?php echo $error; ?>">
+						<label for="select01" class="control-label">Address <span class="f_req">*</span></label>
+						<div class="controls">
+							<textarea rows="3" cols="10" id="address" name="address"><?php echo set_value('address'); ?></textarea>
+							<?php echo form_error('address', '<span class="help-inline">', '</span>'); ?>
+						</div>
+					</div>
+				</div>
+				<div class="control-group formSep <?php echo $error; ?>">
+						<label for="select01" class="control-label">Payment Method <span class="f_req">*</span></label>
+						<div class="controls">
+							<label>
+								<input type="radio" name="payment_method" <?=set_radio('payment_method', 'cash')?> value="cash"><span class="lbl"> Cash</span>
+							</label>
+							<label>
+								<input type="radio" name="payment_method" <?=set_radio('payment_method', 'paypal')?> value="paypal"><span class="lbl"> Paypal</span>
+							</label>
+						</div>
+					</div>
+				<div class="control-group">
+					<div class="controls">
+						
+						<a class="btn" href="<?php echo site_url('admin/orders'); ?>"><i class="icon-remove"></i> Cancel</a>
+						<button class="btn btn-gebo btn-success" type="submit"><i class="icon-save"></i> Proceed</button>
+					</div>
+				</div>
+
+			</fieldset>
+		</form>
 	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#client_id').on('change',function(){
+				var val = this.value;
+				if( val == 'others')
+				{
+					$('.other_user').show();
+				}
+				else
+				{
+					$('.other_user').hide();
+				}
+				return false;
+			});
+		});
+	</script>
 </div>
-</div>
-<script src="<?php echo base_url();?>assets/js/orders_list.js"></script>

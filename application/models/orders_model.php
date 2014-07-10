@@ -8,7 +8,6 @@ class Orders_model extends MY_Model {
     public $belongs_to = array( 'user' );
     public $has_many = array( 'order_products' );
 
-
 	public function orders_info($params)
     {
     	$limit      = $params['limit'];
@@ -18,7 +17,15 @@ class Orders_model extends MY_Model {
         $sort_column= $params['sort_column'];
         $access     = $params['access'];
         $uid        = $params['uid'];
-            
+
+        if($params['is_complete'])
+        {
+            $is_checkout = 1;
+        }
+        else
+        {
+            $is_checkout = 0;
+        }
         if($str)
         {
             $this->db->like('orders.first_name', $str);
@@ -37,10 +44,14 @@ class Orders_model extends MY_Model {
                 }
             endif;
         }
-
+        if($is_checkout)
+        {
+            $this->db->where('is_checkout', 1);            
+        }
         $this->db->join('order_products as op', 'op.order_id = orders.order_id');
         $this->db->limit($per_page,$limit);
         $this->db->group_by('orders.order_id');
+        $this->db->order_by("orders.".$sort_column, $sort_by);
         $this->db->select('*');
 
         return $this;

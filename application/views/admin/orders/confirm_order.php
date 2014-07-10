@@ -30,9 +30,10 @@
 						</fieldset>
 						
 						<p>							
-							<button type="button" id="cancel_order" class="btn btn-small" id="cancel">Orders</button>
-							<button type="button" id="edit_order" class="btn btn-danger btn-small">Edit Order</button>
-
+							<button type="button" id="cancel_order" class="btn btn-small" id="cancel">Cancel Order</button>
+							<button type="button" id="save_order" class="btn btn-info btn-small" >Save and Process later</button>
+							<button type="button" id="edit_order" class="btn btn-danger btn-small">Edit Details</button>
+							<button type="button" id="confirm_order" class="btn btn-success btn-small tooltip-info">Confirm Order</button>
 						</p>
 					</form>	
 				</div>
@@ -58,7 +59,17 @@
 			window.location = base_url+"admin/orders/save_order"+uri;
 		});
 		$('#cancel_order').click(function(){
-			window.location = base_url+"admin/orders";
+			bootbox.confirm('Are you sure want to delete this order?', {'verify':true}, function(r)
+	        {
+	            if(r)
+	            {
+	                window.location = base_url+"admin/orders/delete_order"+uri;
+	            }
+	            else
+	            {
+	                return false;
+	            }
+	        });
 		});
 	});
 </script>
