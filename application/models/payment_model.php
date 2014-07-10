@@ -1,6 +1,5 @@
 <?php
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+if (!defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * Payment_model
  *
@@ -11,8 +10,13 @@ if (!defined('BASEPATH'))
  *
  * 
  **/
+	
+
 class Payment_model extends MY_Model
 {
+	protected $_table = 'payments';
+	protected $primary_key = 'id';
+
     var $id = 0;
     var $token = NULL;
     var $amount = 0;
@@ -25,6 +29,7 @@ class Payment_model extends MY_Model
     var $created_at = '';
     var $updated_at = '';
     var $status = 0;
+    var $order_id = '';
     function __construct()
     {
         parent::__construct();
@@ -77,12 +82,18 @@ class Payment_model extends MY_Model
             $this->created_at = date('Y-m-d H:i:s');
             $this->updated_at = date('Y-m-d H:i:s');
             $this->status     = 1;
-            echo "<pre>";
-            print_r($this); die();
             $this->db->set($this);
             $this->db->insert('payments');
             return $this->db->insert_id();
         }
+    }
+
+    function delete_null_rows()
+    {
+    	$this->db->where('order_id', 0);
+    	$this->db->or_where('payer_id', NULL);
+    	$this->db->or_where('transaction_id', NULL);
+    	$this->db->delete('payments');
     }
 }
 	

@@ -23,7 +23,7 @@ if(!isset($amount))$amount = 80;
 
       
       
-        <?= form_open('payment1/checkout', array('class'=>' form-horizontal'))?>
+        <?= form_open('payment/checkout', array('class'=>' form-horizontal'))?>
           
           <fieldset>
             <legend><h2>Awesome Paypal Payment</h2></legend>

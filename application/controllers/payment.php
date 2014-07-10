@@ -48,19 +48,20 @@ class Payment extends CI_Controller
             'PAYMENTREQUEST_0_ITEMAMT' => $this->payment->amount
         );
         $item          = array(
-            'L_PAYMENTREQUEST_0_NAME0' => $product_name,
-            'L_PAYMENTREQUEST_0_DESC0' => $product_name,
-            'L_PAYMENTREQUEST_0_AMT0' => $product_price,
-            'L_PAYMENTREQUEST_0_QTY0' => $quantity
+            'L_PAYMENTREQUEST_0_NAME0'  => $product_name,
+            'L_PAYMENTREQUEST_0_DESC0'  => $product_name,
+            'L_PAYMENTREQUEST_0_AMT0'   => $product_price,
+            'L_PAYMENTREQUEST_0_QTY0'   => $quantity
         );
         $paypal        = $this->paypallib;
         $response      = $paypal->request('SetExpressCheckout', $requestParams + $orderParams + $item);
 
         if (is_array($response) && $response['ACK'] == 'Success')
         {
-            $token                = $response['TOKEN'];
-            $this->payment->token = $token;
-            $this->payment->ACK   = $response['ACK'];
+            $token                  = $response['TOKEN'];
+            $this->payment->token   = $token;
+            $this->payment->ACK     = $response['ACK'];
+            $this->payment->order_id= $order_id;
             $this->payment->save();
             if ($paypal->is_sandbox)
             {
@@ -87,6 +88,7 @@ class Payment extends CI_Controller
         {
             // Get checkout details, including buyer information.
             // We can save it for future reference or cross-check with the data we have
+
             $this->load->model('payment_model', 'payment');
             $payment             = $this->payment->get_by_token($this->input->get('token'));
             $payment['payer_id'] = $this->input->get('PayerID');
@@ -101,17 +103,17 @@ class Payment extends CI_Controller
                 'PAYMENTACTION' => 'Sale',
                 'PAYERID' => $this->input->get('PayerID'),
                 'PAYMENTREQUEST_0_AMT' => $checkoutDetails['PAYMENTREQUEST_0_AMT'], // Same amount as in the original request
-                'PAYMENTREQUEST_0_CURRENCYCODE' => 'CHF' // Same currency as the original request
+                'PAYMENTREQUEST_0_CURRENCYCODE' => 'USD' // Same currency as the original request
             );
             $response        = $paypal->request('DoExpressCheckoutPayment', $requestParams);
             if (is_array($response) && $response['ACK'] == 'Success') // Payment successful
             {
-                $payment['order_id']        = $order_id;
                 $payment['checkout_status'] = $checkoutDetails['CHECKOUTSTATUS'];
                 $payment['status_change']   = $checkoutDetails['TIMESTAMP'];
                 $payment['transaction_id']  = $response['PAYMENTINFO_0_TRANSACTIONID'];
-                
+
                 $this->payment->token       = $this->input->get('token');
+                $this->payment->token       = $order_id;
                 $this->payment->save($payment);
                 $this->payment->save($payment);
                 //print_r($response);
@@ -125,6 +127,11 @@ class Payment extends CI_Controller
         $data = array();
         $data['page_title'] = 'Payment Success';
         $data['heading'] = 'Payment Success';
+
+        // remove junk rows from payment table
+        // $delete_where = array('order_id' => '0', 'payer_id' => '', 'transaction_id' => '');
+        $deleted_rows = $this->payment->delete_null_rows();
+
         if($order_id)
         {
             $update = array('is_checkout' => 1);

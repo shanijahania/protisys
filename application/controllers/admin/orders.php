@@ -37,7 +37,7 @@ class Orders extends Admin_Controller {
 		
 		if($this->admin_session->userdata['admin']['access'] == 'super_admin')
 		{
-			$is_complete	= 1;
+			$is_complete	= 0;
 		}
 		else
 		{
@@ -285,7 +285,7 @@ class Orders extends Admin_Controller {
 			    		$commissions[0]	= $salecommission;
 			    		$total_commission = $salecommission->commission;
 
-			    	else:
+			    	elseif($this->admin_session->userdata['admin']['access'] == 'clients'):
 
 			    		$getClientParentDetails = $this->users_model->get($this->admin_session->userdata['admin']['parent_id']);
 			    		$getPartnerDetials		= $this->users_model->get($getClientParentDetails->parent_id);
@@ -309,6 +309,16 @@ class Orders extends Admin_Controller {
 			    		$commissions[1]	= $salecommission;
 			    		$total_commission = $partnercommission->commission + $salecommission->commission;
 			    	
+			    	else:
+			    		$admin_com 	 = $order_total * 10/100;
+			    		$admincommission = new stdClass();
+			    		$admincommission->commission 				= $admin_com ;
+			    		$admincommission->user_id					= $this->admin_session->userdata['admin']['user_id'];
+			    		$admincommission->commissions_persantage	= 10;
+
+			    		$commissions[1]	 = $admincommission;
+
+			    		$total_commission = $admincommission->commission;
 			    	endif;
 			    	foreach($commissions as $key => $value):
 			    		$data = array(
