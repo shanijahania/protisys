@@ -245,6 +245,19 @@ class Members extends Admin_Controller {
 		    	
 				// ********* Insert Member Meta Data *********
 
+		    	$subject = "Your Login Details";
+		    	$to = $this->input->post('email');
+		    	$from = "no-reply@protisys.com";
+		    	$msg = "<table>";
+
+		    	$msg .= "<tr><td>Username</td><td>".$this->input->post('username')."</td></tr>";
+		    	$msg .= "<tr><td>Password</td><td>".$this->input->post('password')."</td></tr>";
+		    	$msg .= "<tr><td>Url</td><td>".base_url('admin/login')."</td></tr>";
+
+		    	$msg = "</table>";
+
+		    	sendHtmlMail($from,'',$to,$subject,$msg);
+
 				$this->session->set_flashdata('success', 'The ' . $moduleName . ' info have been successfully added');
 				redirect('admin/' . $this->uri->segment(2) . '/create');
 			}

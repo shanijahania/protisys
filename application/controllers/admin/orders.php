@@ -164,9 +164,7 @@ class Orders extends Admin_Controller {
 			$this->form_validation->set_rules('payment_method', 'Payment Method', 'trim|required');
 		}
 
-		
 		$this->form_validation->set_rules('product_id', 'Product', 'trim|required');
-
 
 		if($this->form_validation->run() == TRUE)
 	    {
@@ -248,7 +246,6 @@ class Orders extends Admin_Controller {
 			    		$partnerDetail = $this->users_model->get($this->admin_session->userdata['admin']['user_id']);
 			    		$salespersonDetails = $this->users_model->get($this->admin_session->userdata['admin']['parent_id']);
 			    		
-
 			    		$partner_com 	= $order_total * $partnerDetail->commission_per/100;
 			    		$saleperson_com = $order_total * $salespersonDetails->commission_per/100;
 			    		
@@ -460,6 +457,9 @@ class Orders extends Admin_Controller {
 						$update = array('is_checkout' => 1);
 						if($this->orders_model->update($order_id, $update))
 						{
+							
+							$this->sendEmails($order_id);
+
 							$this->session->set_flashdata('success', 'Order made successfully');
 							redirect('admin/orders', 'refresh');
 						}
@@ -482,6 +482,39 @@ class Orders extends Admin_Controller {
 		}
 		
 	}
+
+	public function sendEmails($order_id)
+	{
+		$data['order_data'] 	= $this->orders_model->get($order_id);
+		$data['order_products'] = $this->order_products_model->get_many_by('order_id', $order_id);
+
+		$html = $this->load->view('admin/template/email_template',$data,true);
+		$subject = "New Order";
+		$from = $data['order_data']->email;
+		$from_name = $data['order_data']->first_name. ' ' .$data['order_data']->surname;
+
+		if($data['order_data']->user_id != '1'){
+			$getParentDetails = $this->users_model->get($data['order_data']->user_id);
+			$to = $getParentDetails->email;
+		}
+		else
+		{
+			$getParentDetails = $this->users_model->get($data['order_data']->user_id);
+			$to = $getParentDetails->email;
+		}
+		sendHtmlMail($from,$from_name,$to,$subject,$html);
+
+		if($data['order_data']->user_id != '0'){
+			
+			$subject = "Your Order Details";
+			$from = 'no-reply@protisys.com';
+			$from_name = "administrator";			
+			$to = $data['order_data']->email;
+			sendHtmlMail($from,$from_name,$to,$subject,$html);			
+		}
+
+	}
+
 	function edit_orders($order_id = false)
 	{
 		$data = array();
