@@ -12,6 +12,7 @@
           <i class="icon-caret-down"></i>
         </a>
         <ul id="user_menu" class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
+          <li><a href="#myModal" data-toggle="modal"><i class="icon-user"></i> Change Password</a></li>
         <?php if(is_access('super_admin')){?>
           <li><a href="<?php echo base_url('admin/settings');?>"><i class="icon-cog"></i> Settings</a></li>
         <?php }?>  

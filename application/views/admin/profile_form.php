@@ -24,12 +24,6 @@
           </div>
         </div>
         <div class="control-group">
-          <label class="control-label" for="password">Password</label>
-          <div class="controls">
-            <input type="password" id="password" name="password" placeholder="Change Password" value="">
-          </div>
-        </div>
-        <div class="control-group">
           <label class="control-label" for="email">Email</label>
           <div class="controls">
             <input type="text" disabled="disabled" id="email" name="email" placeholder="Enter Email" value="<?php echo $profile['email'];?>">

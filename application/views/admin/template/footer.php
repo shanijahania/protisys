@@ -1,4 +1,35 @@
 </div><!--/.fluid-container#main-container-->
+<!-- ****************************************************************** -->
+<!--                        Update Password model                       -->
+<!-- ****************************************************************** -->
+
+<div class="modal hide" id="myModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">x</button>
+    <h3>Update Password</h3>
+  </div>
+  <form method="post" action="#" id="change_password">
+    <div class="modal-body">
+    
+      <p><input type="password" class="span4" name="password_old" id="password_old" placeholder="Old password"></p>
+
+      <p><input type="password" class="span4" name="password" id="password" placeholder="New password"></p>
+      <p><input type="password" class="span4" name="password2" id="password2" placeholder="Confirm Password"></p>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn btn-warning" data-dismiss="modal">Cancel</a>
+      <a href="#" id="btnModalSubmit" class="btn btn-primary">Update</a>
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+  $( document ).ready(function() {
+    $('#change_password').submit(function(e){
+      e.preventDefault();
+      alert('I am submitted');
+    });
+  });
+</script>
 <a href="#" id="btn-scroll-up" class="btn btn-small btn-inverse">
     <i class="icon-double-angle-up icon-only"></i>
 </a>
