@@ -554,5 +554,28 @@ class Members extends Admin_Controller {
 		}
 	}
 
+	public function check_password(){
+		$password = sha1($this->input->get_post('password_old'));
+		$id = $this->admin_session->userdata['admin']['user_id'];
+
+		$userdata = $this->users_model->get_by(array('user_id' => $id, 'password' => $password));
+
+		if(empty($userdata)):
+			echo 0;
+		endif;
+	}
+
+	public function update_password()
+	{
+		$data = array('password' => $this->input->post('password') );
+		$id = $this->admin_session->userdata['admin']['user_id'];
+
+		if($this->users_model->update($id,$data))
+		{
+			$this->session->set_flashdata('success', 'Password has been updated successfully.');
+			redirect('admin/dashboard');
+		}		
+	}
+
 }
 ?>

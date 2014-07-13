@@ -8,7 +8,7 @@
     <button type="button" class="close" data-dismiss="modal">x</button>
     <h3>Update Password</h3>
   </div>
-  <form method="post" action="#" id="change_password">
+  <form method="post" action="<?=base_url('admin/members/update_password')?>" id="change_password">
     <div class="modal-body">
     
       <p><input type="password" class="span4" name="password_old" id="password_old" placeholder="Old password"></p>
@@ -22,14 +22,7 @@
     </div>
   </form>
 </div>
-<script type="text/javascript">
-  $( document ).ready(function() {
-    $('#change_password').submit(function(e){
-      e.preventDefault();
-      alert('I am submitted');
-    });
-  });
-</script>
+
 <a href="#" id="btn-scroll-up" class="btn btn-small btn-inverse">
     <i class="icon-double-angle-up icon-only"></i>
 </a>
@@ -119,6 +112,36 @@ $(function() {
 });
 
 </script>
-
+<script type="text/javascript">
+  $( document ).ready(function() {
+    $('#change_password').validate({
+        rules:{
+          password_old:{
+            required : true, 
+             remote: "<?=base_url('admin/members/check_password')?>"
+          },
+          password:{
+            required : true,
+          },
+          password2 : {
+            equalTo : '#password'
+          }
+        },
+        highlight: function(element) {
+          $(element).closest('.control-group').removeClass('success').addClass('error');
+        },
+        success: function(element) {
+          element
+          .text('OK!').addClass('valid')
+          .closest('.control-group').removeClass('error').addClass('success');
+        },
+        messages: { 
+          password_old: {
+            remote: "Password is miss match" 
+          }
+      }
+    });
+  });
+</script>
 </body>
 </html>
