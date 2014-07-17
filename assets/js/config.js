@@ -1,1 +1,1 @@
-var base_url = 'http://localhost/point-s/admin/';
+var base_url = 'http://localhost/protisys/admin/';

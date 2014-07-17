@@ -15,7 +15,6 @@ class Orders_model extends MY_Model {
         $str        = $params['str'];
         $sort_by    = $params['sort_by'];
         $sort_column= $params['sort_column'];
-        $access     = $params['access'];
         $uid        = $params['uid'];
 
         if($params['is_complete'])
@@ -63,7 +62,6 @@ class Orders_model extends MY_Model {
         $str        = $params['str'];
         $sort_by    = $params['sort_by'];
         $sort_column= $params['sort_column'];
-        $access     = $params['access'];
         $uid        = $params['uid'];
         
         if($str)
@@ -122,9 +120,24 @@ class Orders_model extends MY_Model {
         $this->db->from('order_products as op');
         $this->db->join('orders as o','o.order_id = op.order_id');
 
+        if($this->admin_session->userdata['admin']['access'] != 'super_admin')
+        {
+            $this->db->where('user_id', $this->admin_session->userdata['admin']['user_id']);
+        }
+
         $result = $this->db->get();
         
         return $result->row()->total;
+    }
+
+    function count_all()
+    {
+        if($this->admin_session->userdata['admin']['access'] != 'super_admin')
+        {
+            $this->db->where('user_id', $this->admin_session->userdata['admin']['user_id']);
+        }
+
+        return parent::count_all();
     }
 }
 ?>
