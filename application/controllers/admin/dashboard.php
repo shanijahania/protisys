@@ -17,16 +17,18 @@ class Dashboard extends Admin_Controller {
 		$data['page_title'] = $this->config->item('site_name');
 		$data['heading'] = 'Dashboard (Overview and Stats)';     
 
-		$data['total_sales'] = $this->orders_model->totalSales();
-		$data['total_orders'] = $this->orders_model->count_all();
-		$data['total_partners'] = $this->users_model->count_by(array('access' => 'partners'));
-		$data['total_sales_rep'] = $this->users_model->count_by(array('access' => 'salesperson'));
-		$data['total_clients'] = $this->users_model->count_by(array('access' => 'clients'));
-
 		// Get commissions stats
 		$data['total_commission'] = $this->order_commision_model->total_commission('all')->get_all()[0]->ord_commission;
 		$data['paid_commission'] = $this->order_commision_model->total_commission('paid')->get_all()[0]->ord_commission;
 		$data['pending_commission'] = $this->order_commision_model->total_commission('pending')->get_all()[0]->ord_commission;
+
+		$data['total_sales'] = $this->orders_model->totalSales();
+		$data['total_orders'] = $this->orders_model->count_all();
+		
+		$data['total_partners'] = $this->users_model->count_by(array('access' => 'partners'));
+			
+		$data['total_sales_rep'] = $this->users_model->count_by(array('access' => 'salesperson'));
+		$data['total_clients'] = $this->users_model->count_by(array('access' => 'clients'));
 
 		$data['commission_paid_percent'] = floor(($data['paid_commission'] / $data['total_commission']) * 100);
 		$data['commission_pending_percent'] = floor(($data['pending_commission'] / $data['total_commission']) * 100);
@@ -55,8 +57,26 @@ class Dashboard extends Admin_Controller {
 		$sort_by		= "desc";
 		$sort_column	= "order_id";
 		$uid 			= '';
+
 		$post_params = array();
-		
+
+		if($this->admin_session->userdata['admin']['access'] != 'super_admin')
+		{
+			$uid = $this->admin_session->userdata['admin']['user_id'];
+			$getPartnerID = $this->users_model->get_many_by(array('parent_id' => $uid));
+			
+				$ids_users = array();
+				if(!empty($getPartnerID)):
+					foreach ($getPartnerID as $key => $value) 
+					{
+						$ids_users[$key] = $value->user_id; 
+					}
+				
+					$post_params['ids_users'] = $ids_users;
+				endif;
+
+		}
+
 		$post_params['limit'] 		= $limit;
 		$post_params['per_page'] 	= $per_page;
 		$post_params['str'] 		= $str;
@@ -65,11 +85,14 @@ class Dashboard extends Admin_Controller {
 		$post_params['fields'] 		= $fields;
 		$post_params['uid'] 		= $uid;
 		$post_params['is_complete'] = 'complete';
-		$post_params['access'] 		= 'admin';
+		$post_params['access'] 		= '';
 
+/*		echo "<pre>";
+		print_r($post_params);die();
+*/
 		$this->db->join('users as u','u.user_id = orders.user_id');
 		$orders_records = $this->orders_model->orders_info($post_params)->get_all();
-
+		echo $this->db->last_query();die();
 		return $orders_records;
 	}
 }

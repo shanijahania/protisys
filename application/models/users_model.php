@@ -79,5 +79,28 @@ class Users_model extends MY_Model {
     	$this->db->select('*');
         return $this;
     }
+
+    function count_by($params = array()){
+        $this->db->where($params);
+
+        $uid = $this->admin_session->userdata['admin']['user_id'];
+        $this->db->where('parent_id',$uid);
+
+        if($this->admin_session->userdata['admin']['access'] == 'salesperson' && $params == 'clients')
+        {
+            $getPartnerID = parent::get_many_by(array('parent_id' => $uid));
+            
+                $ids_users = array();
+                if(!empty($getPartnerID)):
+                    foreach ($getPartnerID as $key => $value) 
+                    {
+                        $this->db->or_where_in('parent_id',$value->user_id); 
+                    }
+                endif;
+
+            return parent::count_all();    
+
+        }
+    }
 }
 ?>

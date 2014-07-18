@@ -114,6 +114,12 @@ class Order_commision_model extends MY_Model {
                 $this->db->where('comm_status', 0);    
             }
         }
+
+        if($this->admin_session->userdata['admin']['access'] != 'super_admin')
+        {
+            $this->db->where('u_id', $this->admin_session->userdata['admin']['user_id']);
+        }
+
         $this->db->select_sum('ord_commission');
         return $this;
     }
