@@ -72,7 +72,7 @@
       </div>
       <div class="infobox infobox-small infobox-dark infobox-green">
         <div class="infobox-progress">
-          <div data-size="39" data-percent="61" class="easy-pie-chart percentage easyPieChart" style="width: 39px; height: 39px; line-height: 39px;">
+          <div data-size="39" data-percent="<?=$commission_paid_percent?>" class="easy-pie-chart percentage easyPieChart" style="width: 39px; height: 39px; line-height: 39px;">
             <span class="percent"><?=$commission_paid_percent?></span>%
             <canvas height="39" width="39"></canvas>
           </div>
@@ -86,7 +86,7 @@
 
       <div class="infobox infobox-small infobox-dark infobox-red">
         <div class="infobox-progress">
-          <div data-size="39" data-percent="61" class="easy-pie-chart percentage easyPieChart" style="width: 39px; height: 39px; line-height: 39px;">
+          <div data-size="39" data-percent="<?=$commission_pending_percent?>" class="easy-pie-chart percentage easyPieChart" style="width: 39px; height: 39px; line-height: 39px;">
             <span class="percent"><?=$commission_pending_percent?></span>%
             <canvas height="39" width="39"></canvas>
           </div>

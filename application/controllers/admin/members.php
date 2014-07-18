@@ -6,6 +6,7 @@ class Members extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->model('users_model');
+		$this->load->model('partner_meta_model');
 		$this->date = date('Y-m-d H:i:s');
 	}
 
@@ -40,7 +41,7 @@ class Members extends Admin_Controller {
 		$str 			= '';
 		$per_page 		= '20';
 		$limit 			= 0;
-		$sort_by		= "asc";
+		$sort_by		= "desc";
 		$sort_column	= "user_id";
 
 		
@@ -129,18 +130,21 @@ class Members extends Admin_Controller {
 		}
 		else
 		{
-			$data['heading'] = 'Add ' . $moduleName;	
+			$data['heading'] = 'Add ' . $moduleName;
 		}
 
 		$data['page_title'] = $moduleName." | ".$this->config->item('site_name');
 
 		$moduleName = $this->uri->segment(2);
 
-		if ($moduleName == 'salesperson'):
+		if ($moduleName == 'salesperson')
+		{
 			$moduleName = 'Sales Representative';
-		else:
+		}
+		else
+		{
 			$moduleName = $moduleName;
-		endif;
+		}
 		
 
 		$this->load->library('form_validation');
@@ -157,7 +161,11 @@ class Members extends Admin_Controller {
 		$this->form_validation->set_rules('notes', 'Aggregate Notes', 'trim');
 		$this->form_validation->set_rules('is_active', 'Is Active', 'trim|required');
 		$this->form_validation->set_rules('parent_id', 'Sales Representative', 'trim|required');
-
+		if($moduleName == 'partners')
+		{
+			$this->form_validation->set_rules('bussiness_name', 'Bussiness Name', 'trim');
+			$this->form_validation->set_rules('contact_name', 'Contact Name', 'trim');
+		}
 		if($this->form_validation->run() == TRUE)
 	    {
 	    	$name 		= $this->input->post('name');
@@ -197,6 +205,18 @@ class Members extends Admin_Controller {
 
 	    	if($insert_id)
 			{
+				if($moduleName == 'partners')
+				{
+					$bussiness_name = $this->input->post('bussiness_name');
+					$contact_name 	= $this->input->post('contact_name');
+
+					$partner_meta = array(
+						'user_id' 			=> $insert_id, 
+						'bussiness_name' 	=> $bussiness_name,
+						'contact_name' 		=> $contact_name
+					);
+					$this->partner_meta_model->insert($partner_meta);
+				}
 				// ********* Insert Member Permissions *********
 
 				$permissions = array();
@@ -248,15 +268,24 @@ class Members extends Admin_Controller {
 		    	$subject = "Your Login Details";
 		    	$to = $this->input->post('email');
 		    	$from = "no-reply@protisys.com";
-		    	$msg = "<table>";
+		    	$msg = "<h2>Protisystem Login Details</h2>";
+		    	$msg .= "<p>Your login details are below.</p>";
+		    	$msg .= "<table>";
 
 		    	$msg .= "<tr><td>Username</td><td>".$this->input->post('username')."</td></tr>";
 		    	$msg .= "<tr><td>Password</td><td>".$this->input->post('password')."</td></tr>";
 		    	$msg .= "<tr><td>Url</td><td>".base_url('admin/login')."</td></tr>";
 
 		    	$msg = "</table>";
-
-		    	sendHtmlMail($from,'',$to,$subject,$msg);
+		    	$sendMail = sendHtmlMail($from,'',$to,$subject,$msg);
+		    	if($sendMail)
+		    	{
+		    		echo "email sent..!"; die();
+		    	}
+		    	else
+		    	{
+		    		print_r($sendMail); die();
+		    	}
 
 				$this->session->set_flashdata('success', 'The ' . $moduleName . ' info have been successfully added');
 				redirect('admin/' . $this->uri->segment(2) . '/create');
@@ -335,7 +364,11 @@ class Members extends Admin_Controller {
 		$this->form_validation->set_rules('c_per', 'Commission Persentage', 'trim|required|is_numeric');
 		$this->form_validation->set_rules('notes', 'Aggregate Notes', 'trim');
 		$this->form_validation->set_rules('is_active', 'Is Active', 'required');
-		
+		if($moduleName == 'partners')
+		{
+			$this->form_validation->set_rules('bussiness_name', 'Bussiness Name', 'trim');
+			$this->form_validation->set_rules('contact_name', 'Contact Name', 'trim');
+		}
 		if($this->form_validation->run() == TRUE)
 	    {
 	    	$hash_members_id = $this->input->post('members_id');
@@ -376,6 +409,29 @@ class Members extends Admin_Controller {
 
 	    	if($this->users_model->update($members_id, $data))
 			{
+				if($moduleName == 'partners')
+				{
+					$bussiness_name = $this->input->post('bussiness_name');
+					$contact_name 	= $this->input->post('contact_name');
+					$partner_meta 	= $this->partner_meta_model->get_by('user_id', $members_id);
+
+					$partner_meta_data = array(
+						'bussiness_name' 	=> $bussiness_name,
+						'contact_name' 		=> $contact_name
+						);
+					if($partner_meta)
+					{
+						$this->partner_meta_model->update_by('user_id', $members_id, $partner_meta_data);	
+					}
+					else
+					{
+						$partner_meta_data['user_id'] = $members_id;
+						$this->partner_meta_model->insert($partner_meta_data);	
+					}
+
+					
+				}
+
 				$this->session->set_flashdata('success', 'The ' . $moduleName . ' info have been successfully updated');
 				redirect("admin/" . $this->uri->segment(2) . "/edit/$members_id");
 			}
@@ -401,7 +457,7 @@ class Members extends Admin_Controller {
 		    	// $this->permission->check_form_id_hash($members_id,$hash);
 	    	}
 
-	    	$members_records = $this->users_model->get($members_id);
+	    	$members_records = $this->users_model->with('partner_meta')->get($members_id);
 
 	    	$data['members_records'] = $members_records;
 
@@ -468,7 +524,7 @@ class Members extends Admin_Controller {
     	//check hash if the user edit it
     	$members_id = $this->uri->segment(4);
     	$hash = get_attr_hash($hash_members_id);
-		$members_records = $this->users_model->get($members_id);
+		$members_records = $this->users_model->with('partner_meta')->get($members_id);
 	    $data['members_records'] = $members_records;
 	    $data['main'] = 'admin/members/show_member';
 

@@ -5,7 +5,8 @@ class Users_model extends MY_Model {
 	protected $_table = 'users';
 	protected $primary_key = 'user_id';
 
-    public $belongs_to = array( 'orders' );
+    public $belongs_to = array('partner_meta' => array( 'primary_key' => 'user_id' ));
+
 	public function users_info($params)
     {
 

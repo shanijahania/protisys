@@ -454,8 +454,11 @@ class MY_Model extends CI_Model
             {
                 $relationship = $key;
                 $options = $value;
+                if(!isset($options['model']))
+                {
+                    $options['model'] = $key;
+                }
             }
-
             if (in_array($relationship, $this->_with))
             {
                 $this->load->model($options['model'], $relationship . '_model');

@@ -3,7 +3,7 @@
 		<form class="form-horizontal" action="" method="post" id="add_member1">
 			<fieldset>
 				<input type="hidden" value="<?=$this->uri->segment(2)?>" name="access">
-				
+				<?php //print_r($salespersons);?>
 				<?php
 					if( ! empty($salespersons)):
 				?>
@@ -57,6 +57,29 @@
 						<?php echo form_error('surname', '<span class="help-inline">', '</span>'); ?>
 					</div>
 				</div>
+
+				<!-- ******************** partners only ******************* -->
+				<?php if($module == 'partners'){?>
+				<?php $error = ''; if(form_error('bussiness_name')){ $error = 'error'; } ?>
+
+				<div class="control-group formSep <?php echo $error; ?>">
+					<label for="select01" class="control-label">Bussiness Name</label>
+					<div class="controls">
+						<input type="text" name="bussiness_name" id="bussiness_name" value="<?php echo set_value('bussiness_name'); ?>" class="input-xlarge"  >
+						<?php echo form_error('bussiness_name', '<span class="help-inline">', '</span>'); ?>
+					</div>
+				</div>
+				<?php $error = ''; if(form_error('contact_name')){ $error = 'error'; } ?>
+
+				<div class="control-group formSep <?php echo $error; ?>">
+					<label for="select01" class="control-label">Contact Name</label>
+					<div class="controls">
+						<input type="text" name="contact_name" id="contact_name" value="<?php echo set_value('contact_name'); ?>" class="input-xlarge"  >
+						<?php echo form_error('contact_name', '<span class="help-inline">', '</span>'); ?>
+					</div>
+				</div>
+				<?php }?>
+				<!-- ******************** partners only ******************* -->
 
 				<?php $error = ''; if(form_error('username')){ $error = 'error'; } ?>
 
