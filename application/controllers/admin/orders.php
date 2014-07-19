@@ -78,6 +78,21 @@ class Orders extends Admin_Controller {
 			if($this->admin_session->userdata['admin']['access'] != 'super_admin')
 			{
 				$uid = $this->admin_session->userdata['admin']['user_id'];
+
+				if($this->admin_session->userdata['admin']['access'] == 'salesperson'):	
+
+					$getPartnerID = $this->users_model->get_many_by(array('parent_id' => $uid));
+					
+						$ids_users = array();
+						if(!empty($getPartnerID)):
+							foreach ($getPartnerID as $key => $value) 
+							{
+								$ids_users[$key] = $value->user_id; 
+							}
+						
+							$post_params['ids_users'] = $ids_users;
+						endif;
+					endif;
 			}
 			else
 			{
