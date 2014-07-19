@@ -1,4 +1,4 @@
-<?php if($this->admin_session->userdata['admin']['access'] == 'super_admin'):?>
+<?php if($this->admin_session->userdata['admin']['access'] != 'clients'):?>
   <div class="row-fluid">
   <div class="alert alert-block alert-success">
     <i class="icon-ok green"></i> Welcome to <strong class="green">Protisystem Application Dashboard</strong>
@@ -12,6 +12,7 @@
         </div>
         <!-- <div class="stat stat-important">4%</div> -->
       </div>
+      <?php if($this->admin_session->userdata['admin']['access'] == 'super_admin' || $this->admin_session->userdata['admin']['access'] == 'salesperson'):?>
       <div class="infobox infobox-green">
       <div class="infobox-icon"><i class="icon-group"></i></div>
         <div class="infobox-data">
@@ -20,6 +21,8 @@
         </div>
         <!-- <div class="stat stat-success">8%</div> -->
       </div>
+      <?php endif;?>
+      <?php if($this->admin_session->userdata['admin']['access'] == 'super_admin'):?>
       <div class="infobox infobox-blue">
         <div class="infobox-icon"><i class="icon-briefcase"></i></div>
         <div class="infobox-data">
@@ -28,6 +31,8 @@
         </div>
         <!-- <div class="badge badge-success">+32%</div> -->
       </div>
+      <?php endif;?>
+      
       <div class="infobox infobox-red">
         <div class="infobox-icon"><i class="icon-beaker"></i></div>
         <div class="infobox-data">

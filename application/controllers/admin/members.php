@@ -276,7 +276,8 @@ class Members extends Admin_Controller {
 		    	$msg .= "<tr><td>Password</td><td>".$this->input->post('password')."</td></tr>";
 		    	$msg .= "<tr><td>Url</td><td>".base_url('admin/login')."</td></tr>";
 
-		    	$msg = "</table>";
+		    	$msg .= "</table>";
+
 		    	$sendMail = sendHtmlMail($from,'',$to,$subject,$msg);
 		    	if($sendMail)
 		    	{

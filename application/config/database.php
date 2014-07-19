@@ -102,9 +102,9 @@ $db['default']['hostname'] = 'localhost';
 
 $db['default']['username'] = 'root';
 
-$db['default']['password'] = 'root';
+$db['default']['password'] = '';
 
-$db['default']['database'] = 'proti';
+$db['default']['database'] = 'protisys';
 
 $db['default']['dbdriver'] = 'mysql';
 

@@ -80,13 +80,10 @@ class Users_model extends MY_Model {
         return $this;
     }
 
-    function count_by($params = array()){
-        $this->db->where($params);
-
+    function count($params = array()){
+        
         $uid = $this->admin_session->userdata['admin']['user_id'];
-        $this->db->where('parent_id',$uid);
-
-        if($this->admin_session->userdata['admin']['access'] == 'salesperson' && $params == 'clients')
+        if($this->admin_session->userdata['admin']['access'] == 'salesperson' && $params['access'] == 'clients')
         {
             $getPartnerID = parent::get_many_by(array('parent_id' => $uid));
             
@@ -98,9 +95,15 @@ class Users_model extends MY_Model {
                     }
                 endif;
 
-            return parent::count_all();    
-
         }
+        elseif($this->admin_session->userdata['admin']['access'] == 'partners' && $params['access'] == 'clients')
+        {
+            $this->db->where('parent_id',$uid);
+        }
+
+        $this->db->where($params);
+        
+        return parent::count_by();
     }
 }
 ?>
