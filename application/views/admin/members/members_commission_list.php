@@ -6,28 +6,33 @@
 						<span class="input-icon">
 							<input autocomplete="off" name="s" id="" type="text" class="input-small" placeholder="Search ..." value="<?php echo $s;?>" />
 							<i id="nav-search-icon" class="icon-search"></i>
-							<select id="u_type" name="u_type">
-								<?php
-								$salesperson = '';
-								$partners = '';
-								if(isset($_GET['u_type']))
-								{
-									if($_GET['u_type'] == 'salesperson')
-									{
-										$salesperson = 'selected';
-									}
-									elseif($_GET['u_type'] == 'partners')
-									{
-										$partners = 'selected';
-									}
+							<?php
+								if($this->admin_session->userdata['admin']['access'] == 'super_admin')
+						        {
+						         
+							?>
+									<select id="u_type" name="u_type">
+										<?php
+										$salesperson = '';
+										$partners = '';
+										if(isset($_GET['u_type']))
+										{
+											if($_GET['u_type'] == 'salesperson')
+											{
+												$salesperson = 'selected';
+											}
+											elseif($_GET['u_type'] == 'partners')
+											{
+												$partners = 'selected';
+											}
 
-								}
-								?>
-								<option value=" ">All</option>
-								<option value="salesperson" <?=$salesperson?>>Sale Representative </option>
-								<option value="partners" <?=$partners?>>Partners </option>
-							</select>
-
+										}
+										?>
+										<option value=" ">All</option>
+										<option value="salesperson" <?=$salesperson?>>Sale Representative </option>
+										<option value="partners" <?=$partners?>>Partners </option>
+									</select>
+							<?php }?>
 							<select id="c_status" name="c_status">
 								<?php
 								$pending = '';
@@ -87,7 +92,11 @@
 						<td><?php echo $row->ord_total; ?></td>
 						<td><?php echo $row->ord_commission; ?></td>
 						<td><?php echo $row->ord_commission_persentage; ?> %</td>
-						
+						<?php
+							if($this->admin_session->userdata['admin']['access'] == 'super_admin')
+					        {
+					         
+						?>
 						<td>
 							<form id="<?=$row->c_id?>" action="" method="post" style="margin:0">
 								<input type="hidden" name="com_id" value="<?=$row->c_id?>" />
@@ -97,6 +106,9 @@
 								</select>
 							</form>
 						</td>
+						<?php }else{?>
+						<td><?php echo $row->comm_status == 1 ? "Paid" : "Pending"; ?> </td>
+						<?php }?>
 						<td>
 							<a href="<?php echo site_url('admin/orders/show_order/'.$row->ord_id.'/'.encode_id($row->ord_id)); ?>" class="btn btn-primary btn-minier" title="View">View</a>
 						</td>

@@ -47,6 +47,11 @@ class Order_commision_model extends MY_Model {
         	$this->db->where("created_at BETWEEN '$start' AND '$end'");
         }
 
+        if($this->admin_session->userdata['admin']['access'] != 'super_admin')
+        {
+            $this->db->where('u_id', $this->admin_session->userdata['admin']['user_id']);
+        }
+
         $this->db->join('users as u', 'u.user_id = u_id');
         $this->db->limit($per_page,$limit);
         $this->db->select('*');
@@ -93,6 +98,11 @@ class Order_commision_model extends MY_Model {
         if($start && $end)
         {
         	$this->db->where("created_at BETWEEN '$start' AND '$end'");
+        }
+
+        if($this->admin_session->userdata['admin']['access'] != 'super_admin')
+        {
+            $this->db->where('u_id', $this->admin_session->userdata['admin']['user_id']);
         }
 
         $this->db->join('users as u', 'u.user_id = u_id');

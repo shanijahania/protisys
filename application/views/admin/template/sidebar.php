@@ -118,7 +118,7 @@ if($this->uri->segment(2) == 'settings'){
 			</a>
 		</li>
 		<?php }?>
-		<?php if(is_access('super_admin')){?>
+		<?php if(is_access('super_admin') || is_access('partners') || is_access('salesperson')){?>
 		<li class="">
 			<a href="<?php echo base_url('admin/commission');?>">
 				<i class="icon-cogs"></i>
