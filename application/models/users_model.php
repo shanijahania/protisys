@@ -94,9 +94,10 @@ class Users_model extends MY_Model {
                         $this->db->or_where_in('parent_id',$value->user_id); 
                     }
                 endif;
+            $this->db->where('parent_id',$uid);    
 
         }
-        elseif($this->admin_session->userdata['admin']['access'] == 'partners' && $params['access'] == 'clients')
+        elseif($this->admin_session->userdata['admin']['access'] == 'salesperson' && $params['access'] == 'partners')
         {
             $this->db->where('parent_id',$uid);
         }

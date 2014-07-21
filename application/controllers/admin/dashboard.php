@@ -26,7 +26,7 @@ class Dashboard extends Admin_Controller {
 		$data['total_sales_rep'] = $this->users_model->count(array('access' => 'salesperson'));
 		
 		$data['total_clients'] = $this->users_model->count(array('access' => 'clients'));
-		
+
 		// Get commissions stats
 		$data['total_commission'] = $this->order_commision_model->total_commission('all')->get_all()[0]->ord_commission;
 		$data['paid_commission'] = $this->order_commision_model->total_commission('paid')->get_all()[0]->ord_commission;

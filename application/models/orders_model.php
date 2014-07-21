@@ -118,25 +118,65 @@ class Orders_model extends MY_Model {
 
     function totalSales()
     {
+        $uid = $this->admin_session->userdata['admin']['user_id'];
+        if($this->admin_session->userdata['admin']['access'] != 'super_admin' && $this->admin_session->userdata['admin']['access'] == 'salesperson')
+        {
+            $getPartnerID = $this->getPartnerID(array('parent_id' => $uid));
+            
+            $this->db->where('user_id',$uid);
+                $ids_users = array();
+                if(!empty($getPartnerID)):
+                    foreach ($getPartnerID as $key => $value) 
+                    {
+                        $this->db->or_where_in('user_id',$value->user_id); 
+                    }
+                endif;
+
+        }
+        else
+        {
+            $this->db->where('user_id',$uid);
+        }
+
         $this->db->select('SUM(total_amount) as total');
         $this->db->from('orders as o');
-
-        if($this->admin_session->userdata['admin']['access'] != 'super_admin')
-        {
-            $this->db->where('user_id', $this->admin_session->userdata['admin']['user_id']);
-        }
 
         $result = $this->db->get();
         
         return $result->row()->total;
     }
 
+    function getPartnerID($array)
+    {
+        $this->db->select('user_id')
+                ->from('users');
+        $this->db->where($array);
+        $result = $this->db->get();
+
+        return $result->result();   
+    }
+
     function count_by()
     {
 
-        if($this->admin_session->userdata['admin']['access'] != 'super_admin')
+        $uid = $this->admin_session->userdata['admin']['user_id'];
+        if($this->admin_session->userdata['admin']['access'] != 'super_admin' && $this->admin_session->userdata['admin']['access'] == 'salesperson')
         {
-            $this->db->where('user_id', $this->admin_session->userdata['admin']['user_id']);
+            $getPartnerID = $this->getPartnerID(array('parent_id' => $uid));
+            
+            $this->db->where('user_id',$uid);
+                $ids_users = array();
+                if(!empty($getPartnerID)):
+                    foreach ($getPartnerID as $key => $value) 
+                    {
+                        $this->db->or_where_in('user_id',$value->user_id); 
+                    }
+                endif;
+
+        }
+        else
+        {
+            $this->db->where('user_id',$uid);
         }
 
         return parent::count_by();
