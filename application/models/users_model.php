@@ -17,8 +17,6 @@ class Users_model extends MY_Model {
         $sort_column= $params['sort_column'];
         $access     = $params['access'];
 
-        $this->db->where('access', $access);
-
         if($str)
         {
             $this->db->like('name', $str);
@@ -28,9 +26,29 @@ class Users_model extends MY_Model {
         }
         if ($params['parent_id'] != '') 
         {
-            $this->db->where('parent_id',$params['parent_id']);
+            if($this->admin_session->userdata['admin']['access'] == 'salesperson' && $access == 'clients')
+            {
+                $getPartnerID = parent::get_many_by(array('parent_id' => $params['parent_id']));
+                    $ids_users = array();
+                    if(!empty($getPartnerID)):
+                        foreach ($getPartnerID as $key => $value) 
+                        {
+                            $this->db->or_where('parent_id',$value->user_id); 
+                        }
+                    endif;
+                $this->db->or_where('parent_id',$params['parent_id']);    
+            }
+            elseif($this->admin_session->userdata['admin']['access'] == 'salesperson' && $access == 'partners')
+            {
+                $this->db->where('parent_id',$params['parent_id']);
+            }
+            elseif($this->admin_session->userdata['admin']['access'] == 'partners' && $access == 'clients')
+            {
+                $this->db->where('parent_id',$params['parent_id']);
+            }
         }
 
+        $this->db->where('access', $access);
         $this->db->order_by($sort_column, $sort_by);
         $this->db->limit($per_page,$limit);
         $this->db->select('*');
@@ -44,8 +62,6 @@ class Users_model extends MY_Model {
         $sort_by    = $params['sort_by'];
         $sort_column= $params['sort_column'];
         $access     = $params['access'];
-
-        $this->db->where('access', $access);
         
         if($str)
         {
@@ -56,8 +72,29 @@ class Users_model extends MY_Model {
         }
         if ($params['parent_id'] != '') 
         {
-            $this->db->where('parent_id',$params['parent_id']);
+            if($this->admin_session->userdata['admin']['access'] == 'salesperson' && $access == 'clients')
+            {
+                $getPartnerID = parent::get_many_by(array('parent_id' => $params['parent_id']));
+                    $ids_users = array();
+                    if(!empty($getPartnerID)):
+                        foreach ($getPartnerID as $key => $value) 
+                        {
+                            $this->db->or_where('parent_id',$value->user_id); 
+                        }
+                    endif;
+                $this->db->or_where('parent_id',$params['parent_id']);    
+            }
+            elseif($this->admin_session->userdata['admin']['access'] == 'salesperson' && $access == 'partners')
+            {
+                $this->db->where('parent_id',$params['parent_id']);
+            }
+            elseif($this->admin_session->userdata['admin']['access'] == 'partners' && $access == 'clients')
+            {
+                $this->db->where('parent_id',$params['parent_id']);
+            }
         }
+
+        $this->db->where('access', $access);
         $count = $this->db->count_all_results($this->db->dbprefix('users'));
 
         return $count;
@@ -86,18 +123,20 @@ class Users_model extends MY_Model {
         if($this->admin_session->userdata['admin']['access'] == 'salesperson' && $params['access'] == 'clients')
         {
             $getPartnerID = parent::get_many_by(array('parent_id' => $uid));
-            
                 $ids_users = array();
                 if(!empty($getPartnerID)):
                     foreach ($getPartnerID as $key => $value) 
                     {
-                        $this->db->or_where_in('parent_id',$value->user_id); 
+                        $this->db->or_where('parent_id',$value->user_id); 
                     }
                 endif;
-            $this->db->where('parent_id',$uid);    
-
+            $this->db->or_where('parent_id',$uid);    
         }
         elseif($this->admin_session->userdata['admin']['access'] == 'salesperson' && $params['access'] == 'partners')
+        {
+            $this->db->where('parent_id',$uid);
+        }
+        elseif($this->admin_session->userdata['admin']['access'] == 'partners' && $params['access'] == 'clients')
         {
             $this->db->where('parent_id',$uid);
         }

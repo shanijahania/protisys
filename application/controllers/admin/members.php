@@ -103,7 +103,7 @@ class Members extends Admin_Controller {
 
 		$members_records = $this->users_model->users_info($post_params)->get_all();
 		
-		
+		// echo $this->db->last_query();die();
 		$data['sort_by'] 		= $sort_by;
 		$data['sort_column'] 	= $sort_column;
 
